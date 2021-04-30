@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -11,7 +12,8 @@ import { ClassEditorComponent } from './class-editor/class-editor.component';
 import { MembershipEditorComponent } from './membership-editor/membership-editor.component';
 import { MemberRegistrationComponent } from './member-registration/member-registration.component';
 import { MetricsComponent } from './metrics/metrics.component';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
+
 
 @NgModule({
   declarations: [
@@ -23,12 +25,14 @@ import { AppRoutingModule } from './app-routing.module';
     ClassEditorComponent,
     MembershipEditorComponent,
     MemberRegistrationComponent,
-    MetricsComponent
+    MetricsComponent,
+    routingComponents
   ],
   imports: [
     BrowserModule,
     NgbModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
