@@ -12,6 +12,9 @@ import { MembershipEditorComponent } from './membership-editor/membership-editor
 import { MemberRegistrationComponent } from './member-registration/member-registration.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     BrowserModule,
     NgbModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
