@@ -22,8 +22,10 @@
     "@angular/platform-browser-dynamic": "~11.2.10",
     "@angular/router": "~11.2.10",
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
+    "@types/uuid": "^8.3.0",
     "bootstrap": "^4.5.0",
     "firebase": "^8.4.3",
+    "fp-ts": "^2.10.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
