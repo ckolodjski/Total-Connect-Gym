@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestore} from '@angular/fire/firestore';
 import { Course } from './data-types/course';
-import { none, Option, some } from 'fp-ts/Option/';
-import { Day } from './data-types/day-of-week';
-import { Time } from '@angular/common';
+import { isNone, none, Option, some } from 'fp-ts/Option/';
 import { GymClass } from './data-types/gym-class';
+import { Day } from './data-types/day-of-week';
 
 @Injectable({
   providedIn: 'root'
@@ -14,25 +13,37 @@ export class DatabaseService {
   private _courseRosterDocument: string = "courseRosterDocument";
   private _classScheduleDocument: string = "classScheduleDocument";
 
+  private stretchingCourse = new Course("Stretching I", "A basic stretching course for beginners.");
+  private weightliftingCourse = new Course("Weightlifting I", "A beginner's weightlifting course");
+  private stretchClass = new GymClass(this.stretchingCourse, Day.MONDAY, new Date(Date.now()), new Date(Date.now()))
+
 
   //https://firebase.google.com/docs/firestore/quickstart?authuser=1#web-v8_1
   constructor(fireDBModule: AngularFirestore) {
     this.fireDatabaseProvidor = fireDBModule;
     this.addFillerData();
+    this.tempTest();
    }
 
+  private tempTest() {
+    let test1 =  this.getAllCourses();
+    let test2 = this.getScheduledClasses();
+    let test3 = this.searchCourseNames("lifting");
+    let test4 = this.dropCourse(this.stretchingCourse.CourseID);
+    let test5 = this.unscheduleClass(this.stretchClass.ClassInstanceId);
+  }
+
   private addFillerData() {
-    this.registerCourse(new Course("Stretching I", "A basic stretching course for beginners."));
-    this.registerCourse(new Course("Weightlifting I", "A beginner's weightlifting course"));
+    this.registerCourse(this.stretchingCourse);
+    this.registerCourse(this.weightliftingCourse);
+    this.scheduleClass(this.stretchClass);
   }
 
    //Adds a class to the database. Requires class names to be unique.
    //Returns true if the operation was successful.
    registerCourse(course: Course): boolean {
       this.fireDatabaseProvidor.collection(this._courseRosterDocument).doc(course.CourseID).set(course)
-        .then((docRef) => {
-          return true;
-        })
+        .then((docRef) => true)
         .catch((error) => {
           console.error(`Error adding a course: ${error}`);
           return false;
@@ -45,9 +56,7 @@ export class DatabaseService {
    //Returns true if the operation was successful.
    dropCourse(courseID: string): boolean {
     this.fireDatabaseProvidor.collection(this._courseRosterDocument).doc(courseID).delete()
-      .then(() => {
-        return true;
-      })
+      .then(() => true)
       .catch((error) => {
         console.error(`Error removing a course: ${error}`);
         return false;
@@ -57,7 +66,7 @@ export class DatabaseService {
    }
 
    //Gets all registered courses.
-   //Returns Some<Course[]> if there are courses, or None otherwise.
+   //Returns Some<Course[]> if there are courses, or None if there are no results or an error occurs.
    getAllCourses(): Option<Course[]> {
      this.fireDatabaseProvidor.collection(this._courseRosterDocument).get().toPromise()
       .then((querySnapshot) => {
@@ -66,7 +75,10 @@ export class DatabaseService {
           console.log(`Fetched course object: ${courseData}`);
           return null;//TODO: Transform this into a Course object
         });
-        return some(courses);
+
+        if (courses && courses.length > 0)
+          return some(courses);
+        return none;
       })
       .catch((error) => {
         console.error(`Error getting all registered courses: ${error}`);
@@ -77,22 +89,68 @@ export class DatabaseService {
    }
 
    //Searches for the specified class by name.
-   //Returns Some<GymClass[]> if any results are found, or None if no results are found.
-   searchClassNames(searchName: string): Option<Course[]> {
-    
+   //Returns Some<Course[]> if any results are found, or None if no results are found.
+   searchCourseNames(searchName: string): Option<Course[]> {
+    if (!searchName || searchName.trim().length == 0)
+      return none;
+
+    let allCourses = this.getAllCourses();
+    if (isNone(allCourses))
+      return none;
+
+    let searchResults = allCourses.value.filter((course) => {
+      return course.Name.toLowerCase().includes(searchName.toLowerCase());
+    });
+
+    if (searchResults && searchResults.length > 0)
+      return some(searchResults);
+    return none;
+   }
+
+   //Gets all scheduled classes.
+   //Returns Some<GymClass[]> if any results are retrieved, or None if no results are retrieved or an error occurs.
+   getScheduledClasses(): Option<GymClass[]> {
+    this.fireDatabaseProvidor.collection(this._classScheduleDocument).get().toPromise()
+      .then((querySnapshot) => {
+        let classes: GymClass[] = querySnapshot.docs.map((gymClass) => {
+          let classData = gymClass.data();
+          console.log(`Fetched scheduled class object: ${classData}`);
+          return null;//TODO: Transform this into a GymClass object
+        });
+
+        if (classes && classes.length > 0)
+          return some(classes);
+        return none;
+      })
+      .catch((error) => {
+        console.error(`Error getting all scheduled classes: ${error}`);
+        return none;
+      });
+      return this._promiseNoneError();
    }
 
    //Schedules a class in the specified day and time slot.
-   //Requires the class to be registered first.
    //Returns true if the operation was successful.
-   scheduleClass(gymClass: GymClass) : boolean {
-
+   scheduleClass(gymClass: GymClass): boolean {
+    this.fireDatabaseProvidor.collection(this._classScheduleDocument).doc(gymClass.ClassInstanceId).set(gymClass)
+      .then((docRef) => true)
+      .catch((error) => {
+        console.error(`Error scheduling course: ${error}`);
+        return false;
+      });
+      return this._promiseFalseError();
    }
 
    //Unschedules a class.
    //Returns true if the operation was successful.
    unscheduleClass(classID: string): boolean {
-
+    this.fireDatabaseProvidor.collection(this._classScheduleDocument).doc(classID).delete()
+      .then(() => { return true })
+      .catch((error) => {
+        console.error(`Error unscheduling class: ${error}`);
+        return false;
+      });
+      return this._promiseFalseError();
    } 
 
    //Returns false after printing an error message.
