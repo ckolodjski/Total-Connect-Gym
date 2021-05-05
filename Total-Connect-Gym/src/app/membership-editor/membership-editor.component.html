@@ -1,1 +1,81 @@
-<p>membership-editor works!</p>
+<p>membership-editor works! edit for membership </p>
+<div class="container">
+    <div class="row align-items-start">
+        <div class="col">
+            <div class="card" *ngIf="showAddCard">
+                <div class="card-header">
+                    Add Membership Type Information Below
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Name: </span>
+                        <input type="text" class="form-control" placeholder="Membership Name" aria-label="MemNameAdd"
+                            aria-describedby="basic-addon1" #memToAdd_Name>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text">Price:  </span>
+                        <input class="form-control" aria-label="With textarea" placeholder="$39.99" #memToAdd_Price>
+                        
+                    </div>
+                    <a class="btn btn-primary" type="submit"
+                        (click)="addMembership(memToAdd_Name.value, memToAdd_Price.value)">
+                        Add Membership Type to System</a>
+                </div>
+            </div>
+            <div class="card" *ngIf="showRemoveCard">
+                <div class="card-header">
+                    Enter Membership to Remove
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Name: </span>
+                        <input type="text" class="form-control" placeholder="Membership Name" aria-label="MemNameRem"
+                            aria-describedby="basic-addon1" #memToRemove>
+                    </div>
+                    <a class="btn btn-danger" type="submit" (click)="removeClass(memToRemove.value)">Remove Membership</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Current List of Membership Types
+                </div>
+                <div class="card-body">
+                    This might be easier to do with a *ngFor list but I like this look<br>
+                    Also, should make this list into its own component I think.
+                    <table class="table">
+                        <thead >
+                          <tr>
+                            <th *ngFor = "let column of headers">{{ column }}</th>
+                          </tr>  
+                        </thead>
+                        <tbody>
+                            <tr *ngFor = "let row of rows">
+
+                                <td>1</td>
+                                <td>2</td>
+                                <!-- <td *ngFor = "let column of headers">
+                                     {{ row[column] }}
+                                    not sure why this isn't populating
+                                </td> -->
+                            </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Choose an action
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-primary" (click)="addButtonClick()">Add a Membership</a>
+                    <p></p>
+                    <a class="btn btn-primary" (click)="removeButtonClick()">Remove a Membership</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
