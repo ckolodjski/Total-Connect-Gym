@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from '../database.service';
 
 @Component({
   selector: 'app-class-editor',
@@ -6,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./class-editor.component.css']
 })
 export class ClassEditorComponent implements OnInit {
-
-  constructor() { }
+  private _dbService: DatabaseService;
+  constructor(dbService: DatabaseService) {
+    this._dbService = dbService;
+   }
 
   ngOnInit(): void {
   }
