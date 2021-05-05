@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+//import { Class } from '../models/class.model';
 
 @Component({
   selector: 'app-class-editor',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./class-editor.component.css']
 })
 export class ClassEditorComponent implements OnInit {
-
+  ////cToAdd: Class;
   showAddCard: boolean = false;
   showRemoveCard: boolean = false;
   constructor() { }
@@ -26,7 +27,8 @@ export class ClassEditorComponent implements OnInit {
   }
   //add class to db
   addClass(name: string, desc: string) {
-    alert("Class to add: " + "\n{\nName: " + name + "\nDesc: " + desc + "\n}")
+    //this.cToAdd= Class(name, desc);
+    alert("Class to add: " + "\n{\nName: " + name + "\nDesc: " + desc + "\n}\n" );
   }
   //remove class
   // need to make this input as a class???
