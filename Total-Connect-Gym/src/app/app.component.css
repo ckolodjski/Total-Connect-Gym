@@ -7,10 +7,11 @@
     left:0;
     overflow-x: hidden;
     padding-top: 10px;
-    background-color: gray;
+    background-color: rgb(233, 233, 233);
 }
 .sidenav a {
     padding: 6px 6px 6px 6px;
     display: block;
     font-size: 15px;
+    text-align-last: right;
 }

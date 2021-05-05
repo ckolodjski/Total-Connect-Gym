@@ -1,4 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { DatabaseService } from 'src/app/database.service';
+import { Course } from '../../data-types/course';
 
 @Component({
   selector: 'app-add-class',
@@ -8,13 +10,18 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class AddClassComponent implements OnInit {
 
   @Output() added: EventEmitter<any> = new EventEmitter();
-
-  constructor() { }
+  course:Course;
+  constructor(private dbService: DatabaseService) { }
 
   //add class to db
   addClass(name: string, desc: string) {
-    //this.cToAdd= Class(name, desc);
-    alert("Class to add: " + "\n{\nName: " + name + "\nDesc: " + desc + "\n}\n" );
+    var id = Math.floor(Math.random() *(1000 - 1) + 1);
+    this.course = {Name: name, Description: desc, CourseID: id.toString()};
+    var is_added = this.dbService.registerCourse(this.course);
+    if (is_added) { 
+      alert("Class was added: " + "\n{\nName: " + name + "\nDesc: " + desc + "\nID: " + this.course.CourseID + "}\n" );
+    }
+    //alert("Class to add: " + "\n{\nName: " + name + "\nDesc: " + desc + "\n}\n" );
     this.added.emit();
   }
 
