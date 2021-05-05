@@ -5,25 +5,27 @@ import { isNone, none, Option, some } from 'fp-ts/Option/';
 import { GymClass } from './data-types/gym-class';
 import { Day } from './data-types/day-of-week';
 import { v4 as uuid } from 'uuid';
+import { MembershipLevel } from './data-types/membership';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
   fireDatabaseProvidor: AngularFirestore;
-  private _courseRosterDocument: string = "courseRosterDocument";
-  private _classScheduleDocument: string = "classScheduleDocument";
+  private readonly _courseRosterDocument: string = "courseRosterDocument";
+  private readonly _classScheduleDocument: string = "classScheduleDocument";
+  private readonly _membershipLevelsDocument: string = "membershipLevelsDocument";
 
-  private stretchingCourse: Course = { Name: "Stretching I", Description: "A basic stretching course for beginners.", CourseID: uuid() };
-  private weightliftingCourse: Course = { Name: "Weightlifting I", Description: "A beginner's weightlifting course.", CourseID: uuid() };
-  private stretchClass: GymClass = { ClassInformation: this.stretchingCourse, Day: Day.MONDAY, StartTime: new Date(Date.now()), EndTime: new Date(Date.now()), ClassInstanceId: uuid() };
-
+  private readonly stretchingCourse: Course = { Name: "Stretching I", Description: "A basic stretching course for beginners.", CourseID: uuid() };
+  private readonly weightliftingCourse: Course = { Name: "Weightlifting I", Description: "A beginner's weightlifting course.", CourseID: uuid() };
+  private readonly stretchClass: GymClass = { ClassInformation: this.stretchingCourse, Day: Day.MONDAY, StartTime: new Date(Date.now()), EndTime: new Date(Date.now()), ClassInstanceId: uuid() };
+  private readonly premiumMembership: MembershipLevel = { Name: "Premium", Price: 649.99, UniqueID: uuid() }
 
   //https://firebase.google.com/docs/firestore/quickstart?authuser=1#web-v8_1
   constructor(fireDBModule: AngularFirestore) {
     this.fireDatabaseProvidor = fireDBModule;
     this.addFillerData();
-    // this.tempTest();
+    this.tempTest();
    }
 
   private async tempTest() {
@@ -32,6 +34,9 @@ export class DatabaseService {
     let test3 = await this.searchCourseNames("lifting");
     let test4 = await this.dropCourse(this.stretchingCourse.CourseID);
     let test5 = await this.unscheduleClass(this.stretchClass.ClassInstanceId);
+    let test6 = await this.addMembershipLevel(this.premiumMembership);
+    let test7 = await this.getMembershipLevels();
+    let test8 = await this.removeMembershipLevel(this.premiumMembership.UniqueID);
     let i = 0;
   }
 
@@ -41,48 +46,63 @@ export class DatabaseService {
     this.scheduleClass(this.stretchClass);
   }
 
+  //Adds a document to a collection.
+  private async addData<T>(data: T, collection: string, docID: string, errorMessage: string): Promise<boolean> {
+    let success = await this.fireDatabaseProvidor.collection(collection).doc(docID).set(data)
+      .then((docRef) => true)
+      .catch((error) => {
+        console.error(`${errorMessage}: ${error}`);
+        return false;
+      })
+    return success;
+  }
+
+  //Deletes a document from a collection
+  private async deleteData(collection: string, documentID: string, errorMessage: string): Promise<boolean> {
+    let success = await this.fireDatabaseProvidor.collection(collection).doc(documentID).delete()
+      .then(() => true)
+      .catch((error) => {
+        console.error(`${errorMessage}: ${error}`);
+        return false;
+      });
+      return success;
+  }
+
+  //Gets all documents in a collection as a specific data type.
+  private async getData<T>(collection: string, errorMessage: string): Promise<Option<T[]>> {
+    let ret = await this.fireDatabaseProvidor.collection(collection).get().toPromise()
+      .then((querySnapshot) => {
+        let objects: T[] = querySnapshot.docs.map((object) => {
+          return object.data() as T;
+        });
+
+        if (objects && objects.length > 0)
+          return some(objects);
+        return none;
+      })
+      .catch((error) => {
+        console.error(`${errorMessage}: ${error}`);
+        return none;
+      });
+      return ret;
+  }
+
    //Adds a class to the database. Requires class names to be unique.
    //Returns true if the operation was successful.
    async registerCourse(course: Course): Promise<boolean> {
-      let success = await this.fireDatabaseProvidor.collection(this._courseRosterDocument).doc(course.CourseID).set(course)
-        .then((docRef) => true)
-        .catch((error) => {
-          console.error(`Error adding a course: ${error}`);
-          return false;
-        });
-      return success;
+     return await this.addData(course, this._courseRosterDocument, course.CourseID, "Error adding a course");
    }
 
    //Attempts to remove a course from the list of available courses.
    //Returns true if the operation was successful.
    async dropCourse(courseID: string): Promise<boolean> {
-    let success = await this.fireDatabaseProvidor.collection(this._courseRosterDocument).doc(courseID).delete()
-      .then(() => true)
-      .catch((error) => {
-        console.error(`Error removing a course: ${error}`);
-        return false;
-      });
-      return success;
+    return await this.deleteData(this._courseRosterDocument, courseID, "Error removing a course");
    }
 
    //Gets all registered courses.
    //Returns Some<Course[]> if there are courses, or None if there are no results or an error occurs.
    async getAllCourses(): Promise<Option<Course[]>> {
-     let coursesReturnable = await this.fireDatabaseProvidor.collection(this._courseRosterDocument).get().toPromise()
-      .then((querySnapshot) => {
-        let courses: Course[] = querySnapshot.docs.map((course) => {
-          return course.data() as Course;
-        });
-
-        if (courses && courses.length > 0)
-          return some(courses);
-        return none;
-      })
-      .catch((error) => {
-        console.error(`Error getting all registered courses: ${error}`);
-        return none;
-      });
-      return coursesReturnable;
+     return await this.getData(this._courseRosterDocument, "Error getting all registered courses");
    }
 
    //Searches for the specified class by name.
@@ -107,44 +127,36 @@ export class DatabaseService {
    //Gets all scheduled classes.
    //Returns Some<GymClass[]> if any results are retrieved, or None if no results are retrieved or an error occurs.
    async getScheduledClasses(): Promise<Option<GymClass[]>> {
-    let classesReturnable = await this.fireDatabaseProvidor.collection(this._classScheduleDocument).get().toPromise()
-      .then((querySnapshot) => {
-        let classes: GymClass[] = querySnapshot.docs.map((gymClass) => {
-          return gymClass.data() as GymClass;
-        });
-
-        if (classes && classes.length > 0)
-          return some(classes);
-        return none;
-      })
-      .catch((error) => {
-        console.error(`Error getting all scheduled classes: ${error}`);
-        return none;
-      });
-      return classesReturnable;
+    return await this.getData(this._classScheduleDocument, "Error getting all scheduled classes");
    }
 
    //Schedules a class in the specified day and time slot.
    //Returns true if the operation was successful.
    async scheduleClass(gymClass: GymClass): Promise<boolean> {
-    let success = await this.fireDatabaseProvidor.collection(this._classScheduleDocument).doc(gymClass.ClassInstanceId).set(gymClass)
-      .then((docRef) => true)
-      .catch((error) => {
-        console.error(`Error scheduling course: ${error}`);
-        return false;
-      });
-      return success;
+     return await this.addData(gymClass, this._classScheduleDocument, gymClass.ClassInstanceId, "Error scheduling a course");
    }
 
    //Unschedules a class.
    //Returns true if the operation was successful.
    async unscheduleClass(classID: string): Promise<boolean> {
-    let success = await this.fireDatabaseProvidor.collection(this._classScheduleDocument).doc(classID).delete()
-      .then(() => { return true })
-      .catch((error) => {
-        console.error(`Error unscheduling class: ${error}`);
-        return false;
-      });
-      return success;
-   } 
+    return await this.deleteData(this._classScheduleDocument, classID, "Error removing class");
+   }
+
+   //Adds a membership level.
+   //Returns true if the operation was successful.
+   async addMembershipLevel(membershipLevel: MembershipLevel): Promise<boolean> {
+     return await this.addData(membershipLevel, this._membershipLevelsDocument, membershipLevel.UniqueID, "Error adding a membership level");
+   }
+
+   //Gets all membership levels.
+   //Returns Some<MembershipLevel[]> if there are memberships, or None if there are no memberships.
+   async getMembershipLevels(): Promise<Option<MembershipLevel[]>> {
+     return await this.getData(this._membershipLevelsDocument, "Error getting membership levels");
+   }
+
+   //Removes a membership level.
+   //Returns true if the operation was a success.
+   async removeMembershipLevel(membershipLevelID: string): Promise<boolean> {
+     return await this.deleteData(this._membershipLevelsDocument, membershipLevelID, "Error removing membership level");
+   }
 }
