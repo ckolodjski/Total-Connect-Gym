@@ -23,15 +23,16 @@ export class DatabaseService {
   constructor(fireDBModule: AngularFirestore) {
     this.fireDatabaseProvidor = fireDBModule;
     this.addFillerData();
-    this.tempTest();
+    // this.tempTest();
    }
 
-  private tempTest() {
-    let test1 =  this.getAllCourses();
-    let test2 = this.getScheduledClasses();
-    let test3 = this.searchCourseNames("lifting");
-    let test4 = this.dropCourse(this.stretchingCourse.CourseID);
-    let test5 = this.unscheduleClass(this.stretchClass.ClassInstanceId);
+  private async tempTest() {
+    let test1 =  await this.getAllCourses();
+    let test2 = await this.getScheduledClasses();
+    let test3 = await this.searchCourseNames("lifting");
+    let test4 = await this.dropCourse(this.stretchingCourse.CourseID);
+    let test5 = await this.unscheduleClass(this.stretchClass.ClassInstanceId);
+    let i = 0;
   }
 
   private addFillerData() {
@@ -42,39 +43,35 @@ export class DatabaseService {
 
    //Adds a class to the database. Requires class names to be unique.
    //Returns true if the operation was successful.
-   registerCourse(course: Course): boolean {
-      this.fireDatabaseProvidor.collection(this._courseRosterDocument).doc(course.CourseID).set(course)
+   async registerCourse(course: Course): Promise<boolean> {
+      let success = await this.fireDatabaseProvidor.collection(this._courseRosterDocument).doc(course.CourseID).set(course)
         .then((docRef) => true)
         .catch((error) => {
           console.error(`Error adding a course: ${error}`);
           return false;
         });
-
-      return this._promiseFalseError();
+      return success;
    }
 
    //Attempts to remove a course from the list of available courses.
    //Returns true if the operation was successful.
-   dropCourse(courseID: string): boolean {
-    this.fireDatabaseProvidor.collection(this._courseRosterDocument).doc(courseID).delete()
+   async dropCourse(courseID: string): Promise<boolean> {
+    let success = await this.fireDatabaseProvidor.collection(this._courseRosterDocument).doc(courseID).delete()
       .then(() => true)
       .catch((error) => {
         console.error(`Error removing a course: ${error}`);
         return false;
       });
-
-      return this._promiseFalseError();
+      return success;
    }
 
    //Gets all registered courses.
    //Returns Some<Course[]> if there are courses, or None if there are no results or an error occurs.
-   getAllCourses(): Option<Course[]> {
-     this.fireDatabaseProvidor.collection(this._courseRosterDocument).get().toPromise()
+   async getAllCourses(): Promise<Option<Course[]>> {
+     let coursesReturnable = await this.fireDatabaseProvidor.collection(this._courseRosterDocument).get().toPromise()
       .then((querySnapshot) => {
         let courses: Course[] = querySnapshot.docs.map((course) => {
-          let courseData = course.data();
-          console.log(`Fetched course object: ${courseData}`);
-          return null;//TODO: Transform this into a Course object
+          return course.data() as Course;
         });
 
         if (courses && courses.length > 0)
@@ -85,17 +82,16 @@ export class DatabaseService {
         console.error(`Error getting all registered courses: ${error}`);
         return none;
       });
-
-      return this._promiseNoneError();
+      return coursesReturnable;
    }
 
    //Searches for the specified class by name.
    //Returns Some<Course[]> if any results are found, or None if no results are found.
-   searchCourseNames(searchName: string): Option<Course[]> {
+   async searchCourseNames(searchName: string): Promise<Option<Course[]>> {
     if (!searchName || searchName.trim().length == 0)
       return none;
 
-    let allCourses = this.getAllCourses();
+    let allCourses = await this.getAllCourses();
     if (isNone(allCourses))
       return none;
 
@@ -110,13 +106,11 @@ export class DatabaseService {
 
    //Gets all scheduled classes.
    //Returns Some<GymClass[]> if any results are retrieved, or None if no results are retrieved or an error occurs.
-   getScheduledClasses(): Option<GymClass[]> {
-    this.fireDatabaseProvidor.collection(this._classScheduleDocument).get().toPromise()
+   async getScheduledClasses(): Promise<Option<GymClass[]>> {
+    let classesReturnable = await this.fireDatabaseProvidor.collection(this._classScheduleDocument).get().toPromise()
       .then((querySnapshot) => {
         let classes: GymClass[] = querySnapshot.docs.map((gymClass) => {
-          let classData = gymClass.data();
-          console.log(`Fetched scheduled class object: ${classData}`);
-          return null;//TODO: Transform this into a GymClass object
+          return gymClass.data() as GymClass;
         });
 
         if (classes && classes.length > 0)
@@ -127,41 +121,30 @@ export class DatabaseService {
         console.error(`Error getting all scheduled classes: ${error}`);
         return none;
       });
-      return this._promiseNoneError();
+      return classesReturnable;
    }
 
    //Schedules a class in the specified day and time slot.
    //Returns true if the operation was successful.
-   scheduleClass(gymClass: GymClass): boolean {
-    this.fireDatabaseProvidor.collection(this._classScheduleDocument).doc(gymClass.ClassInstanceId).set(gymClass)
+   async scheduleClass(gymClass: GymClass): Promise<boolean> {
+    let success = await this.fireDatabaseProvidor.collection(this._classScheduleDocument).doc(gymClass.ClassInstanceId).set(gymClass)
       .then((docRef) => true)
       .catch((error) => {
         console.error(`Error scheduling course: ${error}`);
         return false;
       });
-      return this._promiseFalseError();
+      return success;
    }
 
    //Unschedules a class.
    //Returns true if the operation was successful.
-   unscheduleClass(classID: string): boolean {
-    this.fireDatabaseProvidor.collection(this._classScheduleDocument).doc(classID).delete()
+   async unscheduleClass(classID: string): Promise<boolean> {
+    let success = await this.fireDatabaseProvidor.collection(this._classScheduleDocument).doc(classID).delete()
       .then(() => { return true })
       .catch((error) => {
         console.error(`Error unscheduling class: ${error}`);
         return false;
       });
-      return this._promiseFalseError();
+      return success;
    } 
-
-   //Returns false after printing an error message.
-   private _promiseFalseError(): boolean {
-    console.error("Error with promise: We shouldn't get to here!");
-    return false;
-   }
-
-   private _promiseNoneError<T>(): Option<T> {
-    console.error("Error with promise: We shouldn't get to here!");
-    return none;
-   }
 }
