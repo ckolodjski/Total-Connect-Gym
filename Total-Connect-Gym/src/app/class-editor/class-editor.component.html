@@ -20,7 +20,7 @@
                         Add Class to System</a>
                 </div>
             </div>
-            <app-remove-class *ngIf="showRemoveCard" ></app-remove-class>
+            <app-remove-class *ngIf="showRemoveCard" (remove)="removeButtonClick()"></app-remove-class>
             <!-- <div class="card" *ngIf="showRemoveCard">
                 <div class="card-header">
                     Enter Class to Remove
