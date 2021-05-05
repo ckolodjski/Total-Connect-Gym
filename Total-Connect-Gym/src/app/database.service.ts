@@ -4,6 +4,7 @@ import { Course } from './data-types/course';
 import { isNone, none, Option, some } from 'fp-ts/Option/';
 import { GymClass } from './data-types/gym-class';
 import { Day } from './data-types/day-of-week';
+import { v4 as uuid } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,9 @@ export class DatabaseService {
   private _courseRosterDocument: string = "courseRosterDocument";
   private _classScheduleDocument: string = "classScheduleDocument";
 
-  private stretchingCourse = new Course("Stretching I", "A basic stretching course for beginners.");
-  private weightliftingCourse = new Course("Weightlifting I", "A beginner's weightlifting course");
-  private stretchClass = new GymClass(this.stretchingCourse, Day.MONDAY, new Date(Date.now()), new Date(Date.now()))
+  private stretchingCourse: Course = { Name: "Stretching I", Description: "A basic stretching course for beginners.", CourseID: uuid() };
+  private weightliftingCourse: Course = { Name: "Weightlifting I", Description: "A beginner's weightlifting course.", CourseID: uuid() };
+  private stretchClass: GymClass = { ClassInformation: this.stretchingCourse, Day: Day.MONDAY, StartTime: new Date(Date.now()), EndTime: new Date(Date.now()), ClassInstanceId: uuid() };
 
 
   //https://firebase.google.com/docs/firestore/quickstart?authuser=1#web-v8_1
