@@ -21,11 +21,11 @@ export class MembershipEditorComponent implements OnInit {
     this.showAddCard = !this.showAddCard;
 
     //alert("rows info: " + this.rows.values()[0] );
-    console.log("hello");
-    for(var x in this.rows.values()){
-      console.log(x);
+    // console.log("hello");
+    // for(var x in this.rows.values()){
+    //   console.log(x);
       
-    }
+    // }
   }
   removeButtonClick() { 
     if (this.showAddCard){ this.showAddCard = false; }
@@ -41,13 +41,13 @@ export class MembershipEditorComponent implements OnInit {
     }
   }
   //add class to db
-  addClass(name: string, desc: string) {
+  addMembership(name: string, desc: string) {
     //this.cToAdd= Class(name, desc);
     alert("Class to add: " + "\n{\nName: " + name + "\nDesc: " + desc + "\n}\n" );
   }
   //remove class
   // need to make this input as a class???
-  removeClass(c: string) {
+  removeMembership(c: string) {
     alert("Class to remove is " + c + "\n MAKE SURE YOU ARE SURE")
     this.showRemoveCard = !this.showRemoveCard;
     console.log("class removed: " + c);
