@@ -14,6 +14,7 @@ import { MemberRegistrationComponent } from './member-registration/member-regist
 import { MetricsComponent } from './metrics/metrics.component';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { RemoveClassComponent } from './class-editor/remove-class/remove-class.component';
+import { AddClassComponent } from './class-editor/add-class/add-class.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { RemoveClassComponent } from './class-editor/remove-class/remove-class.c
     MemberRegistrationComponent,
     MetricsComponent,
     routingComponents,
-    RemoveClassComponent
+    RemoveClassComponent,
+    AddClassComponent
   ],
   imports: [
     BrowserModule,
