@@ -3,52 +3,26 @@ import { AngularFirestore} from '@angular/fire/firestore';
 import { Course } from './data-types/course';
 import { isNone, none, Option, some } from 'fp-ts/Option/';
 import { GymClass } from './data-types/gym-class';
-import { Day } from './data-types/day-of-week';
-import { v4 as uuid } from 'uuid';
 import { MembershipLevel } from './data-types/membership';
+import { GymMember } from './data-types/member';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
-  fireDatabaseProvidor: AngularFirestore;
+  private readonly _fireDatabaseProvidor: AngularFirestore;
   private readonly _courseRosterDocument: string = "courseRosterDocument";
   private readonly _classScheduleDocument: string = "classScheduleDocument";
   private readonly _membershipLevelsDocument: string = "membershipLevelsDocument";
+  private readonly _gymMembersDocument: string = "gymMembersDocument";
 
-  private readonly stretchingCourse: Course = { Name: "Stretching I", Description: "A basic stretching course for beginners.", CourseID: uuid() };
-  private readonly weightliftingCourse: Course = { Name: "Weightlifting I", Description: "A beginner's weightlifting course.", CourseID: uuid() };
-  private readonly stretchClass: GymClass = { ClassInformation: this.stretchingCourse, Day: Day.MONDAY, StartTime: new Date(Date.now()), EndTime: new Date(Date.now()), ClassInstanceId: uuid() };
-  private readonly premiumMembership: MembershipLevel = { Name: "Premium", Price: 649.99, UniqueID: uuid() }
-
-  //https://firebase.google.com/docs/firestore/quickstart?authuser=1#web-v8_1
   constructor(fireDBModule: AngularFirestore) {
-    this.fireDatabaseProvidor = fireDBModule;
-    this.addFillerData();
-    this.tempTest();
+    this._fireDatabaseProvidor = fireDBModule;
    }
-
-  private async tempTest() {
-    let test1 =  await this.getAllCourses();
-    let test2 = await this.getScheduledClasses();
-    let test3 = await this.searchCourseNames("lifting");
-    let test4 = await this.dropCourse(this.stretchingCourse.CourseID);
-    let test5 = await this.unscheduleClass(this.stretchClass.ClassInstanceId);
-    let test6 = await this.addMembershipLevel(this.premiumMembership);
-    let test7 = await this.getMembershipLevels();
-    let test8 = await this.removeMembershipLevel(this.premiumMembership.UniqueID);
-    let i = 0;
-  }
-
-  private addFillerData() {
-    this.registerCourse(this.stretchingCourse);
-    this.registerCourse(this.weightliftingCourse);
-    this.scheduleClass(this.stretchClass);
-  }
 
   //Adds a document to a collection.
   private async addData<T>(data: T, collection: string, docID: string, errorMessage: string): Promise<boolean> {
-    let success = await this.fireDatabaseProvidor.collection(collection).doc(docID).set(data)
+    let success = await this._fireDatabaseProvidor.collection(collection).doc(docID).set(data)
       .then((docRef) => true)
       .catch((error) => {
         console.error(`${errorMessage}: ${error}`);
@@ -59,7 +33,7 @@ export class DatabaseService {
 
   //Deletes a document from a collection
   private async deleteData(collection: string, documentID: string, errorMessage: string): Promise<boolean> {
-    let success = await this.fireDatabaseProvidor.collection(collection).doc(documentID).delete()
+    let success = await this._fireDatabaseProvidor.collection(collection).doc(documentID).delete()
       .then(() => true)
       .catch((error) => {
         console.error(`${errorMessage}: ${error}`);
@@ -70,7 +44,7 @@ export class DatabaseService {
 
   //Gets all documents in a collection as a specific data type.
   private async getData<T>(collection: string, errorMessage: string): Promise<Option<T[]>> {
-    let ret = await this.fireDatabaseProvidor.collection(collection).get().toPromise()
+    let ret = await this._fireDatabaseProvidor.collection(collection).get().toPromise()
       .then((querySnapshot) => {
         let objects: T[] = querySnapshot.docs.map((object) => {
           return object.data() as T;
@@ -85,6 +59,17 @@ export class DatabaseService {
         return none;
       });
       return ret;
+  }
+
+  //Updates a document in the specified collection.
+  private async updateDocument<T>(collection: string, documentID: string, newData: T, errorMessage: string): Promise<boolean> {
+    let success = await this._fireDatabaseProvidor.collection(collection).doc(documentID).update(newData)
+      .then(() => true)
+      .catch((error) => {
+        console.error(`${errorMessage}: ${error}`);
+        return false;
+      });
+    return success;
   }
 
    //Adds a class to the database. Requires class names to be unique.
@@ -158,5 +143,23 @@ export class DatabaseService {
    //Returns true if the operation was a success.
    async removeMembershipLevel(membershipLevelID: string): Promise<boolean> {
      return await this.deleteData(this._membershipLevelsDocument, membershipLevelID, "Error removing membership level");
+   }
+
+   //Adds a new gym member.
+   //Returns true if the operation was a success.
+   async addGymMember(member: GymMember): Promise<boolean> {
+     return await this.addData(member, this._gymMembersDocument, member.UniqueID, "Error adding a new gym member");
+   }
+
+   //Removes a gym member.
+   //Returns true if the operation was a success.
+   async removeGymMember(memberID: string): Promise<boolean> {
+    return await this.deleteData(this._gymMembersDocument, memberID, "Error removing a gym member");
+   }
+
+   //Updates a gym member.
+   //Returns true if the operation was a success.
+   async updateGymMember(memberID: string, replacementData: GymMember): Promise<boolean> {
+     return await this.updateDocument(this._gymMembersDocument, memberID, replacementData, "Error updating gym member information");
    }
 }
