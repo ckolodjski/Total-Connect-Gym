@@ -16,6 +16,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { RemoveClassComponent } from './class-editor/remove-class/remove-class.component';
 import { AddClassComponent } from './class-editor/add-class/add-class.component';
 import { AddMembershipComponent } from './membership-editor/add-membership/add-membership.component';
+import { RemoveMembershipComponent } from './membership-editor/remove-membership/remove-membership.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AddMembershipComponent } from './membership-editor/add-membership/add-m
     routingComponents,
     RemoveClassComponent,
     AddClassComponent,
-    AddMembershipComponent
+    AddMembershipComponent,
+    RemoveMembershipComponent
   ],
   imports: [
     BrowserModule,

@@ -41,13 +41,6 @@ export class MembershipEditorComponent implements OnInit {
     }
   }
   
-  //remove class
-  // need to make this input as a class???
-  removeMembership(c: string) {
-    alert("Class to remove is " + c + "\n MAKE SURE YOU ARE SURE")
-    this.showRemoveCard = !this.showRemoveCard;
-    console.log("class removed: " + c);
-  }
   ngOnInit(): void {
     this.fetchMembershipTypes();
   }

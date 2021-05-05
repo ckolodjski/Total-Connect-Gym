@@ -15,6 +15,7 @@ export class AddMembershipComponent implements OnInit {
   addMembership(name: string, price: string) {
     //this.cToAdd= Class(name, desc);
     alert("Mem to add: " + "\n{\nName: " + name + "\nPrice: " + price + "\n}\n" );
+    this.added.emit();
   }
 
   ngOnInit(): void {
