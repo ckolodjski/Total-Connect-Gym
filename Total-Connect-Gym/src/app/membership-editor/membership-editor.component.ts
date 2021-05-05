@@ -40,11 +40,7 @@ export class MembershipEditorComponent implements OnInit {
       this.rows.push(mem)
     }
   }
-  //add class to db
-  addMembership(name: string, desc: string) {
-    //this.cToAdd= Class(name, desc);
-    alert("Class to add: " + "\n{\nName: " + name + "\nDesc: " + desc + "\n}\n" );
-  }
+  
   //remove class
   // need to make this input as a class???
   removeMembership(c: string) {
