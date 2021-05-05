@@ -13,6 +13,7 @@ import { MembershipEditorComponent } from './membership-editor/membership-editor
 import { MemberRegistrationComponent } from './member-registration/member-registration.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
+import { RemoveClassComponent } from './class-editor/remove-class/remove-class.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
     MembershipEditorComponent,
     MemberRegistrationComponent,
     MetricsComponent,
-    routingComponents
+    routingComponents,
+    RemoveClassComponent
   ],
   imports: [
     BrowserModule,

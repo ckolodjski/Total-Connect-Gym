@@ -20,7 +20,8 @@
                         Add Class to System</a>
                 </div>
             </div>
-            <div class="card" *ngIf="showRemoveCard">
+            <app-remove-class *ngIf="showRemoveCard" ></app-remove-class>
+            <!-- <div class="card" *ngIf="showRemoveCard">
                 <div class="card-header">
                     Enter Class to Remove
                 </div>
@@ -32,7 +33,7 @@
                     </div>
                     <a class="btn btn-danger" type="submit" (click)="removeClass(classToRemove.value)">Remove Class</a>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="col">
             <div class="card">
