@@ -44,7 +44,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     NgbModule,
     AppRoutingModule,
     RouterModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    //AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule
   ],
   providers: [],
