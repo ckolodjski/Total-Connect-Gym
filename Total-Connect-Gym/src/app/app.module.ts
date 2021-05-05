@@ -18,6 +18,9 @@ import { AddClassComponent } from './class-editor/add-class/add-class.component'
 import { AddMembershipComponent } from './membership-editor/add-membership/add-membership.component';
 import { RemoveMembershipComponent } from './membership-editor/remove-membership/remove-membership.component';
 
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,9 @@ import { RemoveMembershipComponent } from './membership-editor/remove-membership
     BrowserModule,
     NgbModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

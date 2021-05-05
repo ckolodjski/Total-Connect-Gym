@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 //import { Class } from '../models/class.model';
+import { DatabaseService } from '../database.service';
 
 @Component({
   selector: 'app-class-editor',
@@ -10,7 +11,11 @@ export class ClassEditorComponent implements OnInit {
   ////cToAdd: Class;
   showAddCard: boolean = false;
   showRemoveCard: boolean = false;
-  constructor() { }
+  //constructor() { }
+  private _dbService: DatabaseService;
+  constructor(dbService: DatabaseService) {
+    this._dbService = dbService;
+   }
 
   addButtonClick() { 
     if (this.showRemoveCard){ this.showRemoveCard = false; }
