@@ -28,7 +28,7 @@ export class MemberCheckInComponent implements OnInit {
     if (res) {
       this.checkInMessage = "You have been checked in!"
     } else {
-      this.checkInMessage = "Error checking in. Please double check your Member ID."
+      this.checkInMessage = "Error checking in. Please double check your Member ID or ask an employee for assistance."
     }
   }
 

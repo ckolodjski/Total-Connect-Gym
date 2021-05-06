@@ -1,1 +1,23 @@
-<p>time-clock works!</p>
+<div class="container">
+    <div class="row align-items-start">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Please enter your Employee ID:
+                </div>
+                <div class="card-body">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Employee ID" aria-label="EmployeeID"
+                            #employeeID>
+                    </form>
+                    <br />
+                    <button class="btn btn-outline-primary" 
+                            (click)="clockIn(employeeID.value)">Clock In</button>
+                    <br />
+                    <br />
+                    <p>{{clockInMessage}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
