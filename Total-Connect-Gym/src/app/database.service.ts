@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore} from '@angular/fire/firestore';
 import { Course } from './data-types/course';
-import { isNone, none, Option, some } from 'fp-ts/Option/';
+import { isNone, isSome, none, Option, some } from 'fp-ts/Option/';
 import { GymClass } from './data-types/gym-class';
 import { MembershipLevel } from './data-types/membership';
 import { GymMember } from './data-types/member';
 import { GymEmployee } from './data-types/employee';
+import { v4 as uuid } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class DatabaseService {
   private readonly _classScheduleDocument: string = "classScheduleDocument";
   private readonly _membershipLevelsDocument: string = "membershipLevelsDocument";
   private readonly _gymMembersDocument: string = "gymMembersDocument";
+  private readonly _employeesDocument: string = "employeesDocument";
 
   constructor(fireDBModule: AngularFirestore) {
     this._fireDatabaseProvidor = fireDBModule;
@@ -164,59 +166,124 @@ export class DatabaseService {
      return await this.updateDocument(this._gymMembersDocument, memberID, replacementData, "Error updating gym member information");
    }
 
-  //! begin unfinished block
-  /*  
-   *  1. Check/clock in/out methods should check db for ID, return True if it exists and flip CurrentlyCheckedIn/CurrentlyClockedIn boolean value.
-   *  2. Rn I don't have a drop-down for checking/clocking in/out (as in the mockup), but ig I could with the getGymXYZ() methods.
-   *  3. I think it's better just to have a hardcoded list of employees initialized in the database.
-  */
+   //Gets all gym members.
+   //Returns Some<GymMember[]> if any results are retrieved, or None if no results are retrieved or an error occurs.
+   async getGymMembers(): Promise<Option<GymMember[]>> {
+    return await this.getData(this._gymMembersDocument, "Error getting all gym members");
+   }
+
+   //Gets a specific gym member.
+   //Returns Some<GymMember> if the gym member was retrieved, or None if the gym member was not found or an error occurs.
+   async getGymMember(uniqueMemberID: string): Promise<Option<GymMember>> {
+    let members = await this.getGymMembers();
+    if (isNone(members))
+      return none;
+    
+    let targetMember = members.value.find((member) => member.UniqueID == uniqueMemberID);
+    if (targetMember)
+      return some(targetMember);
+    return none;
+   }
+  
+  //Sets the checkin status of a member.
+  //Returns true if the operation was successful.
+  private async setMemberCheckInStatus(memberID: string, status: boolean) : Promise<boolean> {
+    let targetMember = await this.getGymMember(memberID);
+    if (isNone(targetMember)) {
+      console.error(`Gym member doesn't exist: ${memberID}`);
+      return false;
+    }
+
+    targetMember.value.CurrentlyCheckedIn = status;
+    return await this.updateGymMember(targetMember.value.UniqueID, targetMember.value);
+  }
 
   //Checks a gym member into the gym.
   //Returns true if the operation was a success.
   async checkInMember(memberID: string): Promise<boolean> {
-    return;
+    return await this.setMemberCheckInStatus(memberID, true);
   }
 
   //Checks a gym member out of the gym.
   //Returns true if the operation was a success.
   async checkOutMember(memberID: string): Promise<boolean> {
-    return;
+    return await this.setMemberCheckInStatus(memberID, false);
+  }
+
+   //Gets all gym employees.
+   //Returns Some<GymEmployee[]> if any results are retrieved, or None if no results are retrieved or an error occurs.
+   async getGymEmployees(): Promise<Option<GymEmployee[]>> {
+    return await this.getData(this._employeesDocument, "Error getting gym employees");
+   }
+
+   //Adds a gym employee.
+   //Returns true if the operation was successful.
+   async addGymEmployee(employee: GymEmployee): Promise<boolean> {
+     return await this.addData(employee, this._employeesDocument, employee.UniqueID, "Error adding gym employee");
+   }
+
+   //Removes a gym employee.
+   //Returns true if the operation was successful.
+   async removeGymEmployee(employeeID: string): Promise<boolean> {
+     return await this.deleteData(this._employeesDocument, employeeID, "Error removing an employee");
+   }
+
+   //Gets a specific employee.
+   //Returns Some<GymEmployee> if the operation was successful, or none if the employee was not retrieved.
+   private async getEmployee(employeeID: string): Promise<Option<GymEmployee>> {
+    let employees = await this.getGymEmployees();
+    if (isNone(employees))
+      return none;
+
+    let targetEmployee = employees.value.find((employee) => employee.UniqueID == employeeID);
+    if (targetEmployee)
+      return some(targetEmployee);
+    else {
+      console.error(`Error getting a specific employee: ${employeeID}`);
+      return none;
+    }
+   }
+
+  //Sets the clock in or clock out status of an employee.
+  //Returns true if the operation was successful.
+  private async setEmployeeClockStatus(employeeID: string, status: boolean): Promise<boolean> {
+    let employee = await this.getEmployee(employeeID);
+    if (isNone(employee))
+      return false;
+    
+    employee.value.CurrentlyClockedIn = status;
+    return await this.updateDocument(this._employeesDocument, employee.value.UniqueID, employee.value, "Error updating employee clock status");
   }
 
   //Clock in an employee.
   //Returns true if the operation was a success.
   async clockInEmployee(employeeID: string): Promise<boolean> {
-    return;
+    return await this.setEmployeeClockStatus(employeeID, true);
   }
 
   //Clock out an employee.
   //Returns true if the operation was a success.
   async clockOutEmployee(employeeID: string): Promise<boolean> {
-    return;
+    return await this.setEmployeeClockStatus(employeeID, false);
   }
 
   //Get hours worked for an employee.
-  //Returns true if the operation was a success.
-  async getHoursWorked(employeeID: string): Promise<boolean> {
-    return;
+  //Returns Some<HoursWorked> if the operation was a success, or none if the operation was unsuccessful.
+  async getHoursWorked(employeeID: string): Promise<Option<number>> {
+    let employee = await this.getEmployee(employeeID);
+    if (isNone(employee))
+      return none;
+    return some(employee.value.HoursWorked);
   }
 
   //Set hours worked for an employee.
   //Returns true if the operation was a success.
   async setHoursWorked(employeeID: string, hours: number): Promise<boolean> {
-    return;
+    let employee = await this.getEmployee(employeeID);
+    if (isNone(employee))
+      return false;
+
+    employee.value.HoursWorked = hours;
+    return await this.updateDocument(this._employeesDocument, employee.value.UniqueID, employee.value, "Error setting employee's hours worked");
   }
-
-  //Gets all gym members.
-   //Returns Some<GymMember[]> if any results are retrieved, or None if no results are retrieved or an error occurs.
-   async getGymMembers(): Promise<Option<GymMember[]>> {
-    return;
-   }
-
-   //Gets all gym employees.
-   //Returns Some<GymEmployee[]> if any results are retrieved, or None if no results are retrieved or an error occurs.
-   async getGymEmployees(): Promise<Option<GymEmployee[]>> {
-    return;
-   }
-  //! end unfinished block
 }
