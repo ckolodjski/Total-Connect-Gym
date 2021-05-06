@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MembershipType } from '../models/membership_type.model'
+import { MembershipLevel } from './../data-types/membership';
+import { v4 as uuidv4 } from 'uuid';
+import { DatabaseService } from '../database.service';
+import { isSome } from 'fp-ts/lib/Option';
+
 @Component({
   selector: 'app-membership-editor',
   templateUrl: './membership-editor.component.html',
@@ -7,40 +11,37 @@ import { MembershipType } from '../models/membership_type.model'
 })
 export class MembershipEditorComponent implements OnInit {
 
-  constructor() { }
-  ////cToAdd: Class;
+  constructor(private dbService: DatabaseService) { }
+
   showAddCard: boolean = false;
   showRemoveCard: boolean = false;
-  membershipTypes: MembershipType[] = [];
+  membershipTypes: MembershipLevel[] = [];
 
-  headers = ["Name:", "Price:"]
+  headers = ["Name:   ", "Price:   ", "ID:      "]
   rows = [];
 
   addButtonClick() { 
     if (this.showRemoveCard){ this.showRemoveCard = false; }
     this.showAddCard = !this.showAddCard;
-
-    //alert("rows info: " + this.rows.values()[0] );
-    // console.log("hello");
-    // for(var x in this.rows.values()){
-    //   console.log(x);
-      
-    // }
   }
   removeButtonClick() { 
     if (this.showAddCard){ this.showAddCard = false; }
     this.showRemoveCard = !this.showRemoveCard;
   }
+  refreshList() {
+    this.fetchMembershipTypes();
+  }
   //fetch membership list and for populating the tapable
-  fetchMembershipTypes() {
-    const memtype: MembershipType = {name: "Single Monthly", price: 29.99}
-    const memtype2: MembershipType = {name: "Couple Monthly", price: 39.99}
-    this.membershipTypes = [memtype, memtype2]
-    for(var mem in this.membershipTypes) {
-      this.rows.push(mem)
+  async fetchMembershipTypes() {
+    var res = await this.dbService.getMembershipLevels()
+    
+    if (isSome(res)) {
+      this.membershipTypes = res.value;
     }
+    
   }
   
+
   ngOnInit(): void {
     this.fetchMembershipTypes();
   }

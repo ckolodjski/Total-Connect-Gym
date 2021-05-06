@@ -1,4 +1,6 @@
 <h3>List of All Classes</h3>
 <ul class="list-group" *ngFor="let course of courses">
-    <li class="list-group-item">{{ course.CourseID}}{{course.Name}} {{course.Description}} </li>  
+    <li class="list-group-item"><strong>ID:</strong> {{ course.CourseID }}<br>
+      <strong>Name:</strong> {{course.Name}}<br>
+      <strong>Description:</strong> {{course.Description}} </li>  
   </ul>

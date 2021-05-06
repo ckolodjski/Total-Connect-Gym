@@ -2,21 +2,9 @@
 <div class="container">
     <div class="row align-items-start">
         <div class="col">
-            <app-add-membership *ngIf="showAddCard" (added)="addButtonClick()"></app-add-membership>
-            <app-remove-membership  *ngIf="showRemoveCard" (remove)="removeButtonClick()"></app-remove-membership>
-            <!-- <div class="card" *ngIf="showRemoveCard">
-                <div class="card-header">
-                    Enter Membership to Remove
-                </div>
-                <div class="card-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Name: </span>
-                        <input type="text" class="form-control" placeholder="Membership Name" aria-label="MemNameRem"
-                            aria-describedby="basic-addon1" #memToRemove>
-                    </div>
-                    <a class="btn btn-danger" type="submit" (click)="removeMembership(memToRemove.value)">Remove Membership</a>
-                </div>
-            </div> -->
+            <app-add-membership *ngIf="showAddCard" (added)="addButtonClick()" (added)="refreshList()"></app-add-membership>
+            <app-remove-membership  *ngIf="showRemoveCard" (remove)="removeButtonClick()" (remove)="refreshList()"></app-remove-membership>
+            
         </div>
         <div class="col">
             <div class="card">
@@ -24,8 +12,6 @@
                     Current List of Membership Types
                 </div>
                 <div class="card-body">
-                    This might be easier to do with a *ngFor list but I like this look<br>
-                    Also, should make this list into its own component I think.
                     <table class="table">
                         <thead >
                           <tr>
@@ -33,14 +19,10 @@
                           </tr>  
                         </thead>
                         <tbody>
-                            <tr *ngFor = "let row of rows">
-
-                                <td>1</td>
-                                <td>2</td>
-                                <!-- <td *ngFor = "let column of headers">
-                                     {{ row[column] }}
-                                    not sure why this isn't populating
-                                </td> -->
+                            <tr *ngFor = "let ml of membershipTypes">
+                                <td>{{ ml.Name }}</td>
+                                <td>{{ ml.Price }}</td>
+                                <td>{{ ml.UniqueID }}</td>
                             </tr>
                         </tbody>
                       </table>
