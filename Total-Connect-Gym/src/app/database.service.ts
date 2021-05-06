@@ -5,6 +5,7 @@ import { isNone, none, Option, some } from 'fp-ts/Option/';
 import { GymClass } from './data-types/gym-class';
 import { MembershipLevel } from './data-types/membership';
 import { GymMember } from './data-types/member';
+import { GymEmployee } from './data-types/employee';
 
 @Injectable({
   providedIn: 'root'
@@ -163,9 +164,13 @@ export class DatabaseService {
      return await this.updateDocument(this._gymMembersDocument, memberID, replacementData, "Error updating gym member information");
    }
 
-  //! TODO member check-in & time clock functionality
-  //! TODO verify the memberID entered by the client is a valid member UUID
-  //! TODO figure out how to identify employees? unsure of how we're doing this
+  //! begin unfinished block
+  /*  
+   *  1. Check/clock in/out methods should check db for ID, return True if it exists and flip CurrentlyCheckedIn/CurrentlyClockedIn boolean value.
+   *  2. Rn I don't have a drop-down for checking/clocking in/out (as in the mockup), but ig I could with the getGymXYZ() methods.
+   *  3. I think it's better just to have a hardcoded list of employees initialized in the database.
+  */
+
   //Checks a gym member into the gym.
   //Returns true if the operation was a success.
   async checkInMember(memberID: string): Promise<boolean> {
@@ -201,5 +206,17 @@ export class DatabaseService {
   async setHoursWorked(employeeID: string, hours: number): Promise<boolean> {
     return;
   }
+
+  //Gets all gym members.
+   //Returns Some<GymMember[]> if any results are retrieved, or None if no results are retrieved or an error occurs.
+   async getGymMembers(): Promise<Option<GymMember[]>> {
+    return;
+   }
+
+   //Gets all gym employees.
+   //Returns Some<GymEmployee[]> if any results are retrieved, or None if no results are retrieved or an error occurs.
+   async getGymEmployees(): Promise<Option<GymEmployee[]>> {
+    return;
+   }
   //! end unfinished block
 }
