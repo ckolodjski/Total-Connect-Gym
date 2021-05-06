@@ -21,7 +21,7 @@ export class TimeClockComponent implements OnInit {
   }
 
   async clockIn(employeeID: string) {
-    // TODO call db service function
+    // TODO confirm this works
 
     var res = await this._dbService.checkInMember(employeeID);
     
@@ -33,7 +33,7 @@ export class TimeClockComponent implements OnInit {
   }
 
   async clockOut(employeeID: string) {
-    // TODO call db service function
+    // TODO confirm this works
 
     var res = await this._dbService.checkInMember(employeeID);
     
