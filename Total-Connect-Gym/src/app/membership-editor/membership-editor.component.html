@@ -21,14 +21,10 @@
                           </tr>  
                         </thead>
                         <tbody>
-                            <tr *ngFor = "let row of rows">
-
-                                <td>1</td>
-                                <td>2</td>
-                                <!-- <td *ngFor = "let column of headers">
-                                     {{ row[column] }}
-                                    not sure why this isn't populating
-                                </td> -->
+                            <tr *ngFor = "let ml of membershipTypes">
+                                <td>{{ ml.Name }}</td>
+                                <td>{{ ml.Price }}</td>
+                                <td>{{ ml.UniqueID }}</td>
                             </tr>
                         </tbody>
                       </table>
