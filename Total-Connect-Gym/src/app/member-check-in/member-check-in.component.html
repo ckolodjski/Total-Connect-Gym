@@ -1,1 +1,20 @@
-<p>member-check-in works!</p>
+<div class="container">
+    <div class="row align-items-start">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Please enter your Member ID:
+                </div>
+                <div class="card-body">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Member ID" aria-label="MemberID"
+                            #memberID>
+                    </form>
+                    <br />
+                    <button class="btn btn-outline-primary" 
+                            (click)="checkIn(memberID.value)">Check In</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
