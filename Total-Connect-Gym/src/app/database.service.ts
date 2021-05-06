@@ -7,6 +7,7 @@ import { MembershipLevel } from './data-types/membership';
 import { GymMember } from './data-types/member';
 import { GymEmployee } from './data-types/employee';
 import { v4 as uuid } from 'uuid';
+import { member } from 'fp-ts/lib/Map';
 
 @Injectable({
   providedIn: 'root'
@@ -294,7 +295,7 @@ export class DatabaseService {
     if (isNone(members))
       return none;
 
-    let checkedInCount = 0;
+    let checkedInCount: number = 0;
     members.value.forEach((member) => {
       if (member.CurrentlyCheckedIn)
         checkedInCount++;
@@ -305,6 +306,14 @@ export class DatabaseService {
   //Gets the total monetary value of all the memberships being paid for.
   //Returns Some<TotalRevenue> if the operation is successful.
   async getTotalRevenue(): Promise<Option<number>> {
+    let members = await this.getGymMembers();
+    if (isNone(members))
+      return none;
     
+    let revenue: number = 0;
+    members.value.forEach((member) => {
+      revenue += member.MembershipLevel.Price;
+    });
+    return some(revenue);
   }
 }

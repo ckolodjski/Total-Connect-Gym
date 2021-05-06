@@ -23,7 +23,7 @@ export class TimeClockComponent implements OnInit {
   async clockIn(employeeID: string) {
     // TODO confirm this works
 
-    var res = await this._dbService.checkInMember(employeeID);
+    var res = await this._dbService.clockInEmployee(employeeID);
     
     if (res) {
       this.timeClockMessage = "You are now clocked in!"
@@ -35,7 +35,7 @@ export class TimeClockComponent implements OnInit {
   async clockOut(employeeID: string) {
     // TODO confirm this works
 
-    var res = await this._dbService.checkInMember(employeeID);
+    var res = await this._dbService.clockOutEmployee(employeeID);
     
     if (res) {
       this.timeClockMessage = "You are now clocked out!"

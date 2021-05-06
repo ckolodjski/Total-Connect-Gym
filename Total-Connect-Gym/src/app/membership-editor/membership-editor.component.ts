@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MembershipType } from '../models/membership_type.model'
+import { MembershipLevel } from './../data-types/membership';
+import { v4 as uuid } from 'uuid';
+
 @Component({
   selector: 'app-membership-editor',
   templateUrl: './membership-editor.component.html',
@@ -11,7 +13,7 @@ export class MembershipEditorComponent implements OnInit {
   ////cToAdd: Class;
   showAddCard: boolean = false;
   showRemoveCard: boolean = false;
-  membershipTypes: MembershipType[] = [];
+  membershipTypes: MembershipLevel[] = [];
 
   headers = ["Name:", "Price:"]
   rows = [];
@@ -33,8 +35,8 @@ export class MembershipEditorComponent implements OnInit {
   }
   //fetch membership list and for populating the tapable
   fetchMembershipTypes() {
-    const memtype: MembershipType = {name: "Single Monthly", price: 29.99}
-    const memtype2: MembershipType = {name: "Couple Monthly", price: 39.99}
+    const memtype: MembershipLevel = {Name: "Single Monthly", Price: 29.99, UniqueID: uuid()}
+    const memtype2: MembershipLevel = {Name: "Couple Monthly", Price: 39.99, UniqueID: uuid() }
     this.membershipTypes = [memtype, memtype2]
     for(var mem in this.membershipTypes) {
       this.rows.push(mem)
