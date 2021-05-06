@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Option } from 'fp-ts/lib/Option';
+import { Course } from '../data-types/course';
 //import { Class } from '../models/class.model';
 import { DatabaseService } from '../database.service';
 
@@ -8,10 +10,11 @@ import { DatabaseService } from '../database.service';
   styleUrls: ['./class-editor.component.css']
 })
 export class ClassEditorComponent implements OnInit {
-  ////cToAdd: Class;
+  
   showAddCard: boolean = false;
   showRemoveCard: boolean = false;
-  //constructor() { }
+  searchResult: Course;
+  courses: Course[] = [];
   private _dbService: DatabaseService;
   constructor(dbService: DatabaseService) {
     this._dbService = dbService;
@@ -28,7 +31,8 @@ export class ClassEditorComponent implements OnInit {
   //fetch class list, search
   // string should be fine for searching
   searchClass(c: string) {
-      alert("searched for " + c + "\n need to do db stuff here like the Tour of Heroes")
+    var res = this._dbService.searchCourseNames(c);
+    console.log(res); //nothing shown
   }
   
   ngOnInit(): void {
