@@ -286,4 +286,25 @@ export class DatabaseService {
     employee.value.HoursWorked = hours;
     return await this.updateDocument(this._employeesDocument, employee.value.UniqueID, employee.value, "Error setting employee's hours worked");
   }
+
+  //Gets the number of members currently checked into the gym.
+  //Returns Some<MembersCheckedIn> if the operation is successful.
+  async getNumberMembersCheckedIn(): Promise<Option<number>> {
+    let members = await this.getGymMembers();
+    if (isNone(members))
+      return none;
+
+    let checkedInCount = 0;
+    members.value.forEach((member) => {
+      if (member.CurrentlyCheckedIn)
+        checkedInCount++;
+    });
+    return some(checkedInCount);
+  }
+
+  //Gets the total monetary value of all the memberships being paid for.
+  //Returns Some<TotalRevenue> if the operation is successful.
+  async getTotalRevenue(): Promise<Option<number>> {
+    
+  }
 }
