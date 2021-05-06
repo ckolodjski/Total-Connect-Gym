@@ -28,6 +28,9 @@ export class MembershipEditorComponent implements OnInit {
     if (this.showAddCard){ this.showAddCard = false; }
     this.showRemoveCard = !this.showRemoveCard;
   }
+  refreshList() {
+    this.fetchMembershipTypes();
+  }
   //fetch membership list and for populating the tapable
   async fetchMembershipTypes() {
     var res = await this.dbService.getMembershipLevels()
