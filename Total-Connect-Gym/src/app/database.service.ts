@@ -163,17 +163,30 @@ export class DatabaseService {
      return await this.updateDocument(this._gymMembersDocument, memberID, replacementData, "Error updating gym member information");
    }
 
-   //! TODO member check-in functionality
-   //! need to verify the memberID entered by the client is a valid member UUID
-   //Checks a gym member into the gym.
-   //Returns true if the operation was a success.
-   async checkInMember(memberID: string): Promise<boolean> {
+  //! TODO member check-in & time clock functionality
+  //! TODO verify the memberID entered by the client is a valid member UUID
+  //! TODO figure out how to identify employees? unsure of how we're doing this
+  //Checks a gym member into the gym.
+  //Returns true if the operation was a success.
+  async checkInMember(memberID: string): Promise<boolean> {
     return;
   }
 
   //Checks a gym member out of the gym.
   //Returns true if the operation was a success.
   async checkOutMember(memberID: string): Promise<boolean> {
+    return;
+  }
+
+  //Clock in an employee.
+  //Returns true if the operation was a success.
+  async clockInEmployee(employeeID: string): Promise<boolean> {
+    return;
+  }
+
+  //Clock out an employee.
+  //Returns true if the operation was a success.
+  async clockOutEmployee(employeeID: string): Promise<boolean> {
     return;
   }
   //! end unfinished block
