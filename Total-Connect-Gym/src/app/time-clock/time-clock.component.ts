@@ -10,7 +10,7 @@ import { DatabaseService } from '../database.service';
 })
 export class TimeClockComponent implements OnInit {
 
-  clockInMessage: string = "";
+  timeClockMessage: string = "";
   private _dbService: DatabaseService;
 
   constructor(dbService: DatabaseService) {
@@ -26,9 +26,21 @@ export class TimeClockComponent implements OnInit {
     var res = await this._dbService.checkInMember(employeeID);
     
     if (res) {
-      this.clockInMessage = "You are now clocked in!"
+      this.timeClockMessage = "You are now clocked in!"
     } else {
-      this.clockInMessage = "Error clocking in. Please double check your Employee ID or contact your supervisor."
+      this.timeClockMessage = "Error clocking in. Please double check your Employee ID or contact your supervisor."
+    }
+  }
+
+  async clockOut(employeeID: string) {
+    // TODO call db service function
+
+    var res = await this._dbService.checkInMember(employeeID);
+    
+    if (res) {
+      this.timeClockMessage = "You are now clocked out!"
+    } else {
+      this.timeClockMessage = "Error clocking out. Please double check your Employee ID or contact your supervisor."
     }
   }
 
