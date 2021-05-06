@@ -10,6 +10,7 @@ import { DatabaseService } from '../database.service';
 })
 export class MemberCheckInComponent implements OnInit {
 
+  checkInMessage: string = "";
   private _dbService: DatabaseService;
 
   constructor(dbService: DatabaseService) {
@@ -20,16 +21,15 @@ export class MemberCheckInComponent implements OnInit {
   }
 
   async checkIn(memberID: string) {
-    // TODO call db service function, remove commented code if unnecessary
-    this._dbService.checkInMember(memberID);
-    /*
+    // TODO call db service function
+
     var res = await this._dbService.checkInMember(memberID);
-    if (isSome(res)) {
-      console.log(res);
+    
+    if (res) {
+      this.checkInMessage = "You have been checked in!"
     } else {
-      console.log("Member check-in failed.");
+      this.checkInMessage = "Error checking in. Please double check your Member ID."
     }
-    */
   }
 
 }
