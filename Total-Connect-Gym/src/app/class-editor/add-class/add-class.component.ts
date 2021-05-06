@@ -14,10 +14,12 @@ export class AddClassComponent implements OnInit {
   constructor(private dbService: DatabaseService) { }
 
   //add class to db
-  addClass(name: string, desc: string) {
+  async addClass(name: string, desc: string) {
     var id = Math.floor(Math.random() *(1000 - 1) + 1);
     this.course = {Name: name, Description: desc, CourseID: id.toString()};
-    var is_added = this.dbService.registerCourse(this.course);
+    var is_added = await this.dbService.registerCourse(this.course);
+    
+    
     if (is_added) { 
       alert("Class was added: " + "\n{\nName: " + name + "\nDesc: " + desc + "\nID: " + this.course.CourseID + "}\n" );
     }
@@ -26,6 +28,7 @@ export class AddClassComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //get all courses, make sure isSome
   }
 
 }

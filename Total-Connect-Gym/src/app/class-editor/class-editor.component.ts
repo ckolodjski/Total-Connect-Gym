@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Option } from 'fp-ts/lib/Option';
+import { isSome, Option } from 'fp-ts/lib/Option';
 import { Course } from '../data-types/course';
 //import { Class } from '../models/class.model';
 import { DatabaseService } from '../database.service';
@@ -13,7 +13,8 @@ export class ClassEditorComponent implements OnInit {
   
   showAddCard: boolean = false;
   showRemoveCard: boolean = false;
-  searchResult: Course;
+  showListClasses: boolean = false;
+  searchResult: Course[];
   courses: Course[] = [];
   private _dbService: DatabaseService;
   constructor(dbService: DatabaseService) {
@@ -22,17 +23,32 @@ export class ClassEditorComponent implements OnInit {
 
   addButtonClick() { 
     if (this.showRemoveCard){ this.showRemoveCard = false; }
+    if (this.showListClasses) {this.showListClasses = false; }
     this.showAddCard = !this.showAddCard;
   }
   removeButtonClick() { 
     if (this.showAddCard){ this.showAddCard = false; }
+    if (this.showListClasses) {this.showListClasses = false; }
     this.showRemoveCard = !this.showRemoveCard;
+  }
+
+  listAllButtonClick() {
+    if (this.showAddCard){ this.showAddCard = false; }
+    if (this.showRemoveCard){ this.showRemoveCard = false; }
+    this.showListClasses = !this.showListClasses;
   }
   //fetch class list, search
   // string should be fine for searching
-  searchClass(c: string) {
-    var res = this._dbService.searchCourseNames(c);
-    console.log(res); //nothing shown
+  async searchClass(c: string) {
+    var res = await this._dbService.searchCourseNames(c);
+    if( isSome(res) ) { //can do isNone(res)
+      //output res.value somewhere
+      this.searchResult = res.value;
+      console.log(res);
+    } else {
+      console.log("fooey");
+    }
+     //nothing shown
   }
   
   ngOnInit(): void {

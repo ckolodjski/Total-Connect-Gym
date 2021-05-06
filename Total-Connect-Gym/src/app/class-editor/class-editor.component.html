@@ -3,6 +3,7 @@
         <div class="col">
             <app-add-class  *ngIf="showAddCard" (added)="addButtonClick()"></app-add-class>
             <app-remove-class *ngIf="showRemoveCard" (remove)="removeButtonClick()"></app-remove-class>
+            <app-list-classes *ngIf="showListClasses"></app-list-classes>
         </div>
         <div class="col">
             <div class="card">
@@ -13,7 +14,7 @@
                     <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                             #searchVal>
-                        <button class="btn btn-outline-primary" type="submit"
+                        <button class="btn btn-outline-primary" 
                             (click)="searchClass(searchVal.value)">Search</button>
                     </form>
                 </div>
@@ -28,8 +29,17 @@
                     <a class="btn btn-primary" (click)="addButtonClick()">Add a Class</a>
                     <p></p>
                     <a class="btn btn-primary" (click)="removeButtonClick()">Remove a Class</a>
+                    <p></p>
+                    <a class="btn btn-primary" (click)="listAllButtonClick()">List all Classes</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="container">
+    Search Results: (this is not working)
+    <li *ngFor="let c of searchResult;">
+        <ul>{{c.Name}}</ul>
+    </li>
 </div>

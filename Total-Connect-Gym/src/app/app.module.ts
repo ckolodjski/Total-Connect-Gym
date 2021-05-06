@@ -21,6 +21,7 @@ import { RemoveMembershipComponent } from './membership-editor/remove-membership
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ListClassesComponent } from './list-classes/list-classes.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     RemoveClassComponent,
     AddClassComponent,
     AddMembershipComponent,
-    RemoveMembershipComponent
+    RemoveMembershipComponent,
+    ListClassesComponent
   ],
   imports: [
     BrowserModule,
