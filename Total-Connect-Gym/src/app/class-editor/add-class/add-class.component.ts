@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { isSome } from 'fp-ts/lib/Option';
 import { DatabaseService } from 'src/app/database.service';
 import { Course } from '../../data-types/course';
 
@@ -11,6 +12,7 @@ export class AddClassComponent implements OnInit {
 
   @Output() added: EventEmitter<any> = new EventEmitter();
   course:Course;
+  
   constructor(private dbService: DatabaseService) { }
 
   //add class to db
@@ -22,13 +24,14 @@ export class AddClassComponent implements OnInit {
     
     if (is_added) { 
       alert("Class was added: " + "\n{\nName: " + name + "\nDesc: " + desc + "\nID: " + this.course.CourseID + "}\n" );
+    } else {
+      alert("class was not added!");
     }
-    //alert("Class to add: " + "\n{\nName: " + name + "\nDesc: " + desc + "\n}\n" );
+    
     this.added.emit();
   }
 
   ngOnInit(): void {
-    //get all courses, make sure isSome
   }
 
 }
