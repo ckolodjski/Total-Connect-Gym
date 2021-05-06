@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { isSome, Option } from 'fp-ts/lib/Option';
+import { isSome, Option, isNone } from 'fp-ts/lib/Option';
 import { Course } from '../data-types/course';
 //import { Class } from '../models/class.model';
 import { DatabaseService } from '../database.service';
