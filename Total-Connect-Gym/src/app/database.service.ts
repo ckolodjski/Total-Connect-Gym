@@ -189,5 +189,17 @@ export class DatabaseService {
   async clockOutEmployee(employeeID: string): Promise<boolean> {
     return;
   }
+
+  //Get hours worked for an employee.
+  //Returns true if the operation was a success.
+  async getHoursWorked(employeeID: string): Promise<boolean> {
+    return;
+  }
+
+  //Set hours worked for an employee.
+  //Returns true if the operation was a success.
+  async setHoursWorked(employeeID: string, hours: number): Promise<boolean> {
+    return;
+  }
   //! end unfinished block
 }
