@@ -17,7 +17,7 @@ export class MembershipEditorComponent implements OnInit {
   showRemoveCard: boolean = false;
   membershipTypes: MembershipLevel[] = [];
 
-  headers = ["Name:", "Price:"]
+  headers = ["Name:   ", "Price:   ", "ID:      "]
   rows = [];
 
   addButtonClick() { 
