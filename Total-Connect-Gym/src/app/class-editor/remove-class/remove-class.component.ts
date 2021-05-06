@@ -17,12 +17,12 @@ export class RemoveClassComponent implements OnInit {
     
     alert("Class to remove is " + c + "\n MAKE SURE YOU ARE SURE");
     var res = this.dbService.dropCourse(c);
-    if(res) {
-      console.log("removed");
-    } 
-    else {
-      console.log("fauiled");
-    }
+    // if(res) {
+    //   console.log("removed");
+    // } 
+    // else {
+    //   console.log("fauiled");
+    // }
     //this.showRemoveCard = !this.showRemoveCard;
     console.log("class removed: " + res);
     this.remove.emit();
