@@ -42,13 +42,13 @@ export class ClassEditorComponent implements OnInit {
   async searchClass(c: string) {
     var res = await this._dbService.searchCourseNames(c);
     if( isSome(res) ) { //can do isNone(res)
-      //output res.value somewhere
+      alert("serach res working???");
       this.searchResult = res.value;
       console.log(res);
     } else {
+      alert("serach res boof");
       console.log("fooey");
     }
-     //nothing shown
   }
   
   ngOnInit(): void {
