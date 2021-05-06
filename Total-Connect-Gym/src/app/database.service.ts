@@ -162,4 +162,19 @@ export class DatabaseService {
    async updateGymMember(memberID: string, replacementData: GymMember): Promise<boolean> {
      return await this.updateDocument(this._gymMembersDocument, memberID, replacementData, "Error updating gym member information");
    }
+
+   //! TODO member check-in functionality
+   //! need to verify the memberID entered by the client is a valid member UUID
+   //Checks a gym member into the gym.
+   //Returns true if the operation was a success.
+   async checkInMember(memberID: string): Promise<boolean> {
+    return;
+  }
+
+  //Checks a gym member out of the gym.
+  //Returns true if the operation was a success.
+  async checkOutMember(memberID: string): Promise<boolean> {
+    return;
+  }
+  //! end unfinished block
 }
