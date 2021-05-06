@@ -39,6 +39,7 @@ export class ClassEditorComponent implements OnInit {
   }
   //fetch class list, search
   // string should be fine for searching
+  // still doesn't work egt 836 5/5/21
   async searchClass(c: string) {
     var res = await this._dbService.searchCourseNames(c);
     if( isSome(res) ) { //can do isNone(res)
