@@ -4,19 +4,7 @@
         <div class="col">
             <app-add-membership *ngIf="showAddCard" (added)="addButtonClick()"></app-add-membership>
             <app-remove-membership  *ngIf="showRemoveCard" (remove)="removeButtonClick()"></app-remove-membership>
-            <!-- <div class="card" *ngIf="showRemoveCard">
-                <div class="card-header">
-                    Enter Membership to Remove
-                </div>
-                <div class="card-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Name: </span>
-                        <input type="text" class="form-control" placeholder="Membership Name" aria-label="MemNameRem"
-                            aria-describedby="basic-addon1" #memToRemove>
-                    </div>
-                    <a class="btn btn-danger" type="submit" (click)="removeMembership(memToRemove.value)">Remove Membership</a>
-                </div>
-            </div> -->
+            
         </div>
         <div class="col">
             <div class="card">

@@ -10,11 +10,8 @@ import { v4 as uuidv4 } from 'uuid';
 export class MemberRegistrationComponent implements OnInit {
 
   constructor(private dbService: DatabaseService) { }
-  addMem: MembershipLevel;
+  
 
-  addMembershipLevel(name: string, price: number) {
-    this.addMem = {Name: name, Price: price, UniqueID: uuidv4()}
-  }
   ngOnInit(): void {
   }
 
