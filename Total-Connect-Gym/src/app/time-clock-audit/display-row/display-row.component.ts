@@ -38,9 +38,12 @@ export class DisplayRowComponent implements OnInit {
       var newRes = await this._dbService.getHoursWorked(this.employee.UniqueID);
       if (isSome(newRes)) {
         this.hours = newRes.value;
+        this.toggleEdit(); // I placed this here hoping it'd solve the need-to-refresh problem, but alas
       }
+    } else {
+      this.toggleEdit();
     }
-    this.toggleEdit();
+    
   }
 
   toggleEdit() {
