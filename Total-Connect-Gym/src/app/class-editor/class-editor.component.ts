@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { isSome, Option, isNone } from 'fp-ts/lib/Option';
+import { Course } from '../data-types/course';
 //import { Class } from '../models/class.model';
+import { DatabaseService } from '../database.service';
 
 @Component({
   selector: 'app-class-editor',
@@ -7,36 +10,48 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./class-editor.component.css']
 })
 export class ClassEditorComponent implements OnInit {
-  ////cToAdd: Class;
+  
   showAddCard: boolean = false;
   showRemoveCard: boolean = false;
-  constructor() { }
+  showListClasses: boolean = false;
+  searchResult: Course[];
+  courses: Course[] = [];
+  private _dbService: DatabaseService;
+  constructor(dbService: DatabaseService) {
+    this._dbService = dbService;
+   }
 
   addButtonClick() { 
     if (this.showRemoveCard){ this.showRemoveCard = false; }
+    if (this.showListClasses) {this.showListClasses = false; }
     this.showAddCard = !this.showAddCard;
   }
   removeButtonClick() { 
     if (this.showAddCard){ this.showAddCard = false; }
+    if (this.showListClasses) {this.showListClasses = false; }
     this.showRemoveCard = !this.showRemoveCard;
+  }
+
+  listAllButtonClick() {
+    if (this.showAddCard){ this.showAddCard = false; }
+    if (this.showRemoveCard){ this.showRemoveCard = false; }
+    this.showListClasses = !this.showListClasses;
   }
   //fetch class list, search
   // string should be fine for searching
-  searchClass(c: string) {
-      alert("searched for " + c + "\n need to do db stuff here like the Tour of Heroes")
+  // still doesn't work egt 836 5/5/21
+  async searchClass(c: string) {
+    var res = await this._dbService.searchCourseNames(c);
+    if( isSome(res) ) { //can do isNone(res)
+      alert("serach res working???");
+      this.searchResult = res.value;
+      console.log(res);
+    } else {
+      alert("serach res boof");
+      console.log("fooey");
+    }
   }
-  //add class to db
-  addClass(name: string, desc: string) {
-    //this.cToAdd= Class(name, desc);
-    alert("Class to add: " + "\n{\nName: " + name + "\nDesc: " + desc + "\n}\n" );
-  }
-  //remove class
-  // need to make this input as a class???
-  removeClass(c: string) {
-    alert("Class to remove is " + c + "\n MAKE SURE YOU ARE SURE")
-    this.showRemoveCard = !this.showRemoveCard;
-    console.log("class removed: " + c);
-  }
+  
   ngOnInit(): void {
   }
 
