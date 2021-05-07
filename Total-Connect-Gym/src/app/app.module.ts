@@ -27,6 +27,7 @@ import { AddMemberComponent } from './member-registration/add-member/add-member.
 import { RemoveMemberComponent } from './member-registration/remove-member/remove-member.component';
 
 import { DisplayRowComponent } from './time-clock-audit/display-row/display-row.component';
+import { EditMemberComponent } from './member-registration/edit-member/edit-member.component';
 import { GymClassEditorComponent } from './gym-class-editor/gym-class-editor.component';
 
 
@@ -49,7 +50,9 @@ import { GymClassEditorComponent } from './gym-class-editor/gym-class-editor.com
     ListClassesComponent,
     AddMemberComponent,
     RemoveMemberComponent,
+
     DisplayRowComponent,
+    EditMemberComponent,
     GymClassEditorComponent
 
   ],

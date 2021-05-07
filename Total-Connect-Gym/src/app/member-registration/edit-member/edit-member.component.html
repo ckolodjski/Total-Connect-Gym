@@ -1,0 +1,31 @@
+<p>edit-member works!</p>
+<div class="card">
+    <div class="card-header">
+        Edit Member Info Below
+    </div>
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">ID: </span>
+            <input type="text" class="form-control" placeholder="Current ID" 
+                aria-describedby="basic-addon1" #mem_ID>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Name: </span>
+            <input type="text" class="form-control" placeholder="First Last" 
+                aria-describedby="basic-addon1" #mem_Name>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">DoB: </span>
+            <input type="text" class="form-control" aria-label="With textarea" 
+            placeholder="yyyy-mm-dd"#mem_DOB>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Level ID: </span>
+            <input type="text" class="form-control" placeholder="ID" 
+                aria-describedby="basic-addon2" #mem_Level>
+        </div>
+        <a class="btn btn-primary" type="submit"
+            (click)="updateMem(mem_ID.value, mem_Name.value, mem_DOB.value, mem_Level.value)">
+            Update Member</a>
+    </div>
+</div>

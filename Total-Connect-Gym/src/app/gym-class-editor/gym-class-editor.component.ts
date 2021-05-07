@@ -26,6 +26,8 @@ export class GymClassEditorComponent implements OnInit {
     var res = await this.dbService.getAllCourses();
     if (isSome(res)) {
       this.courses = res.value;
+    } else {
+      
     }
   }
   ngOnInit(): void {
