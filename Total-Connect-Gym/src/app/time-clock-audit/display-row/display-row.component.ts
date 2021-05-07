@@ -12,7 +12,7 @@ export class DisplayRowComponent implements OnInit {
   @Input() employee: GymEmployee;
   first: string;
   last: string;
-  newHours: string = "";
+  newHours: string;
 
   editMode: boolean = false;
   editMsg: string = "Edit";
