@@ -8,21 +8,6 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    Search for a class (this maybe could be data list) (maybe we make an app level class search?)
-                </div>
-                <div class="card-body">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                            #searchVal>
-                        <button class="btn btn-outline-primary" 
-                            (click)="searchClass(searchVal.value)">Search</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
                     Choose an action
                 </div>
                 <div class="card-body">
@@ -35,11 +20,4 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="container">
-    Search Results: (this is not working)
-    <li *ngFor="let c of searchResult;">
-        <ul>{{c.Name}}</ul>
-    </li>
 </div>
