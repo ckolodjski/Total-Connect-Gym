@@ -148,6 +148,19 @@ export class DatabaseService {
      return await this.getData(this._membershipLevelsDocument, "Error getting membership levels");
    }
 
+   //Gets a specific membership level by ID.
+   //Returns Some<MembershipLevel> if the membership was found, or None if there are no memberships.
+   async getMembershipLevel(membershipLevelID: string): Promise<Option<MembershipLevel>> {
+    let membershipLevels = await this.getMembershipLevels();
+    if (isNone(membershipLevels))
+      return none;
+
+    let searchResult = membershipLevels.value.find((membershipLevel) => membershipLevel.UniqueID == membershipLevelID);
+    if (searchResult)
+      return some(searchResult);
+    return none;
+   }
+
    //Removes a membership level.
    //Returns true if the operation was a success.
    async removeMembershipLevel(membershipLevelID: string): Promise<boolean> {
@@ -160,16 +173,30 @@ export class DatabaseService {
      return await this.addData(member, this._gymMembersDocument, member.UniqueID, "Error adding a new gym member");
    }
 
+   //Returns true if the gym member exists, or false if an error occurred or the gym member does not exist.
+   private async doesGymMemberExist(memberID: string) : Promise<boolean> {
+    let members = await this.getGymMember(memberID);
+    return isSome(members);
+   }
+
    //Removes a gym member.
    //Returns true if the operation was a success.
    async removeGymMember(memberID: string): Promise<boolean> {
-    return await this.deleteData(this._gymMembersDocument, memberID, "Error removing a gym member");
+    let memberExists = await this.doesGymMemberExist(memberID);
+    if (memberExists)
+      return await this.deleteData(this._gymMembersDocument, memberID, "Error removing a gym member");
+    console.log(`Member does not exist: ${memberID}`);
+    return false;
    }
 
    //Updates a gym member.
    //Returns true if the operation was a success.
    async updateGymMember(memberID: string, replacementData: GymMember): Promise<boolean> {
+    let memberExists = await this.doesGymMemberExist(memberID);
+    if (memberExists)
      return await this.updateDocument(this._gymMembersDocument, memberID, replacementData, "Error updating gym member information");
+    console.log(`Member does not exist: ${memberID}`);
+    return false;
    }
 
    //Gets all gym members.
