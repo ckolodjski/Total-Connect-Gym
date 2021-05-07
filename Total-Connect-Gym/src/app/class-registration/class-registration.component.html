@@ -18,7 +18,8 @@
                 <td>{{ c.EndTime }}</td>
                 <td>{{ c.ClassInstanceId }}</td>
               </tr>
-              <tr> <!--this is example data-->
+              <tr>
+                <!--this is example data-->
                 <td>Power</td>
                 <td>Explosive weight lifting</td>
                 <td>Date object plus 5:00:00</td>
@@ -50,10 +51,35 @@
             Friday</button>
         </div>
       </div>
-    </div>
-    <div class="col-4">
       <app-list-classes></app-list-classes>
     </div>
-  </div>
-</div>
 
+    <div class="col-4">
+
+
+      <div class="card">
+        <div class="card-body">
+          <p>Enter IDs to Sign up</p>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Mem:</span>
+            <input type="text" class="form-control" placeholder="Member ID: " aria-describedby="basic-addon1" #mem_ID>
+          </div>
+
+
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Class: </span>
+            <input type="text" class="form-control"  placeholder="Class ID: " aria-describedby="basic-addon2" #gc_ID>
+          </div>
+
+
+          <button type="button" class="btn btn-primary" (click)="signUp(mem_ID.value, gc_ID.value)">
+            Monday</button>
+        </div>
+      </div>
+
+
+      
+    </div>
+
+  </div>

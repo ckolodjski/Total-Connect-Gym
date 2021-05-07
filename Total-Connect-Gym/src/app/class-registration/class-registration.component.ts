@@ -31,7 +31,9 @@ export class ClassRegistrationComponent implements OnInit {
     alert("slected day is " + this.sd);
   }
   
-
+  signUp(mID: string, gcID: string) {
+    
+  }
   async getSchedule() {
     var res = await this.dbService.getScheduledClasses();
 
