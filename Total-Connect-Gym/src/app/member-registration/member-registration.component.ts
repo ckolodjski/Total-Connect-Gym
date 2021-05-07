@@ -15,7 +15,7 @@ export class MemberRegistrationComponent implements OnInit {
   headers = ["Name:   ", "Price:   ", "ID:      "];
 
   addMember: boolean = true;
-
+  removeMember: boolean = false;
   //fetch membership list and for populating the table
   async fetchMembershipTypes() {
     var res = await this.dbService.getMembershipLevels()
@@ -27,10 +27,12 @@ export class MemberRegistrationComponent implements OnInit {
   }
 
   addButtonClick() {
+    if(this.removeMember) { this.removeMember = false;}
     this.addMember = !this.addMember;
   }
   removeButtonClick(){
-
+    if(this.addMember) {this.addMember = false;}
+    this.removeMember = !this.removeMember;
   }
   editButtonClick(){
 

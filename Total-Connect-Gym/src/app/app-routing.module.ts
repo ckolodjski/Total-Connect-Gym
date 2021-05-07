@@ -20,7 +20,9 @@ const routes: Routes = [
   {path: 'membership-editor', component: MembershipEditorComponent},
   {path: 'metrics', component: MetricsComponent},
   {path: 'time-clock', component: TimeClockComponent},
-  {path: 'time-clock-audit', component: TimeClockAuditComponent}
+  {path: 'time-clock-audit', component: TimeClockAuditComponent},
+  {path: '', component: MetricsComponent}
+  
 ];
 
 @NgModule({

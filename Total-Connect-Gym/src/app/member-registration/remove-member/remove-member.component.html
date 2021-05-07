@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card-header">
+        Enter Member Info 
+    </div>
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">ID: </span>
+            <input type="text" class="form-control" placeholder="Member ID" 
+                aria-describedby="basic-addon1" #mem_ID>
+        </div>
+        <a class="btn btn-primary" type="submit"
+            (click)="removeMember(mem_ID.value)">
+            Remove Member</a>
+    </div>
+</div>
