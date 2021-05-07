@@ -21,13 +21,16 @@ export class MetricsComponent implements OnInit {
 
   async thing()  {
     
-    this.capacity = await this._dbService.getNumberMembersCheckedIn();
+    let capObject = await this._dbService.getNumberMembersCheckedIn();
+    if(isSome(capObject))
+      this.capacity = capObject.value;
+
     this.capacity = this.capacity / 200;
+    this.capacity += "%";
 
     let revObject = await this._dbService.getTotalRevenue();
     if (isSome(revObject))
       this.revenue = revObject.value;
-    else
-      this.revenue = 0;
+    this.revenue = "$" + this.revenue;
   }
 }
