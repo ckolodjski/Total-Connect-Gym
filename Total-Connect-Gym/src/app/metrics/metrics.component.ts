@@ -15,11 +15,15 @@ export class MetricsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.thing();
+  }
 
-    this.capacity = this._dbService.getNumberMembersCheckedIn();
+  async thing()  {
     
+    this.capacity = await this._dbService.getNumberMembersCheckedIn();
+    this.capacity = this.capacity / 200;
 
-    this.revenue = this._dbService.getTotalRevenue();
+    this.revenue = await this._dbService.getTotalRevenue();
   }
 
 }
