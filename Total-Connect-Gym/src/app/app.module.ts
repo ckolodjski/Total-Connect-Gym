@@ -28,6 +28,7 @@ import { RemoveMemberComponent } from './member-registration/remove-member/remov
 
 import { DisplayRowComponent } from './time-clock-audit/display-row/display-row.component';
 import { EditMemberComponent } from './member-registration/edit-member/edit-member.component';
+import { GymClassEditorComponent } from './gym-class-editor/gym-class-editor.component';
 
 
 @NgModule({
@@ -48,11 +49,11 @@ import { EditMemberComponent } from './member-registration/edit-member/edit-memb
     RemoveMembershipComponent,
     ListClassesComponent,
     AddMemberComponent,
-
     RemoveMemberComponent,
 
     DisplayRowComponent,
-      EditMemberComponent
+    EditMemberComponent,
+    GymClassEditorComponent
 
   ],
   imports: [

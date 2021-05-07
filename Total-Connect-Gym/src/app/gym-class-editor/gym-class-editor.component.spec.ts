@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GymclassEditorComponent } from './gymclass-editor.component';
+import { GymClassEditorComponent } from './gym-class-editor.component';
 
-describe('GymclassEditorComponent', () => {
-  let component: GymclassEditorComponent;
-  let fixture: ComponentFixture<GymclassEditorComponent>;
+describe('GymClassEditorComponent', () => {
+  let component: GymClassEditorComponent;
+  let fixture: ComponentFixture<GymClassEditorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GymclassEditorComponent ]
+      declarations: [ GymClassEditorComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GymclassEditorComponent);
+    fixture = TestBed.createComponent(GymClassEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
