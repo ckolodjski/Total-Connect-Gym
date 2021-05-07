@@ -48,7 +48,8 @@ export class DatabaseService {
 
   //Gets all documents in a collection as a specific data type.
   private async getData<T>(collection: string, errorMessage: string): Promise<Option<T[]>> {
-    let ret = await this._fireDatabaseProvidor.collection(collection).get().toPromise()
+    try {
+      let ret = await this._fireDatabaseProvidor.collection(collection).get().toPromise()
       .then((querySnapshot) => {
         let objects: T[] = querySnapshot.docs.map((object) => {
           return object.data() as T;
@@ -63,6 +64,10 @@ export class DatabaseService {
         return none;
       });
       return ret;
+    } catch (error) {
+      console.error(error);
+      return none;
+    }
   }
 
   //Updates a document in the specified collection.
