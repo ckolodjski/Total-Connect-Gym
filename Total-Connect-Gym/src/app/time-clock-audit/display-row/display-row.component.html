@@ -2,9 +2,19 @@
     <td scope="row">{{employee.UniqueID}}</td>
     <td>{{first}}</td>
     <td>{{last}}</td>
-    <td>{{employee.HoursWorked}}</td>
+    <td>
+        <div *ngIf="!editMode">
+            {{hours}}
+        </div>
+        <div *ngIf="editMode">
+            <input type="text" class="form-control" [(ngModel)]="hours" placeholder="{{hours}}" />
+        </div>
+    </td>
     <td>
         <button class="btn btn-outline-primary" 
-            >Edit</button>
+        (click)="editHours()"
+        >
+        {{editMsg}}
+        </button>
     </td>
 </tr>

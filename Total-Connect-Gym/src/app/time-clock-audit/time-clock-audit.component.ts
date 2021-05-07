@@ -11,10 +11,9 @@ import { DatabaseService } from '../database.service';
 })
 export class TimeClockAuditComponent implements OnInit {
 
-  private _dbService: DatabaseService;
-
   employees: GymEmployee[] = [];
 
+  private _dbService: DatabaseService;
   constructor(dbService: DatabaseService) {
     this._dbService = dbService;
   }
@@ -29,8 +28,7 @@ export class TimeClockAuditComponent implements OnInit {
       this.employees = res.value;
     } /*else {  // TODO remove else statement after development
       let x: GymEmployee = {Name: "Joe Bison", DateOfBirth: new Date(), CurrentlyClockedIn: false, HoursWorked: 57, UniqueID: "8675309"};
-      this._dbService.addGymEmployee(x);
-      //this.employees[0] = x;
+      this.employees[0] = x;
     }*/
   }
 
