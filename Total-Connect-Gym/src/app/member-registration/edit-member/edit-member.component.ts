@@ -34,7 +34,10 @@ export class EditMemberComponent implements OnInit {
         newDOB = memres.value.DateOfBirth;
       }
       if((mem_Level != memres.value.MembershipLevel.UniqueID) && (mem_Level != "")) {
-        mem_l = await this.dbService.getMembershipLevel(mem_Level);
+        var l = await this.dbService.getMembershipLevel(mem_Level);
+        if(isSome(l)) {
+          mem_l = l.value;
+        }
       } else {
         mem_l = memres.value.MembershipLevel;
       }
