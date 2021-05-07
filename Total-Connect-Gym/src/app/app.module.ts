@@ -27,6 +27,7 @@ import { AddMemberComponent } from './member-registration/add-member/add-member.
 import { RemoveMemberComponent } from './member-registration/remove-member/remove-member.component';
 
 import { DisplayRowComponent } from './time-clock-audit/display-row/display-row.component';
+import { GymClassEditorComponent } from './gym-class-editor/gym-class-editor.component';
 
 
 @NgModule({
@@ -47,10 +48,9 @@ import { DisplayRowComponent } from './time-clock-audit/display-row/display-row.
     RemoveMembershipComponent,
     ListClassesComponent,
     AddMemberComponent,
-
     RemoveMemberComponent,
-
-    DisplayRowComponent
+    DisplayRowComponent,
+    GymClassEditorComponent
 
   ],
   imports: [
