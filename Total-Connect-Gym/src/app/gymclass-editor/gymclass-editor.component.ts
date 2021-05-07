@@ -9,6 +9,8 @@ export class GymclassEditorComponent implements OnInit {
 
   constructor() { }
 
+  showListClasses: boolean = true;
+
   ngOnInit(): void {
   }
 

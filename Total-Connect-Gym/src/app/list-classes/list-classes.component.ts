@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { isSome } from 'fp-ts/lib/Option';
-import { createThisTypeNode } from 'typescript';
 import { Course } from '../data-types/course';
 import { DatabaseService } from '../database.service';
 
