@@ -22,6 +22,7 @@ import { ListClassesComponent } from './list-classes/list-classes.component';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AddMemberComponent } from './member-registration/add-member/add-member.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     AddClassComponent,
     AddMembershipComponent,
     RemoveMembershipComponent,
-    ListClassesComponent
+    ListClassesComponent,
+    AddMemberComponent
   ],
   imports: [
     BrowserModule,

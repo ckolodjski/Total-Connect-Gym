@@ -12,9 +12,11 @@ export class MemberRegistrationComponent implements OnInit {
 
   constructor(private dbService: DatabaseService) { }
   membershipTypes: MembershipLevel[] = [];
-
   headers = ["Name:   ", "Price:   ", "ID:      "];
-  //fetch membership list and for populating the tapable
+
+  addMember: boolean = true;
+
+  //fetch membership list and for populating the table
   async fetchMembershipTypes() {
     var res = await this.dbService.getMembershipLevels()
 
@@ -24,7 +26,15 @@ export class MemberRegistrationComponent implements OnInit {
 
   }
 
+  addButtonClick() {
+    this.addMember = !this.addMember;
+  }
+  removeButtonClick(){
 
+  }
+  editButtonClick(){
+
+  }
   ngOnInit(): void {
     this.fetchMembershipTypes();
   }
