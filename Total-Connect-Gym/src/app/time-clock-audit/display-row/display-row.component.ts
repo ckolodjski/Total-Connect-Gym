@@ -12,7 +12,7 @@ export class DisplayRowComponent implements OnInit {
   @Input() employee: GymEmployee;
   first: string;
   last: string;
-  hours: number;
+  newHours: string = "";
 
   editMode: boolean = false;
   editMsg: string = "Edit";
@@ -25,13 +25,13 @@ export class DisplayRowComponent implements OnInit {
   ngOnInit(): void {
     this.first = this.employee.Name.split(" ")[0];
     this.last = this.employee.Name.split(" ")[1];
-    this.hours = this.employee.HoursWorked;
   }
 
   async editHours() {
     if (this.editMode) {
       // save hours to database
-      var res = await this._dbService.setHoursWorked(this.employee.UniqueID, this.hours);
+      let hours: number = parseInt(this.newHours);
+      var res = await this._dbService.setHoursWorked(this.employee.UniqueID, hours);
     }
     this.toggleEdit();
   }

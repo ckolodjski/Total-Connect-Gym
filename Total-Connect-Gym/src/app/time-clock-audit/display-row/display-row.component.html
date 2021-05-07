@@ -4,10 +4,10 @@
     <td>{{last}}</td>
     <td>
         <div *ngIf="!editMode">
-            {{hours}}
+            {{employee.hours}}
         </div>
         <div *ngIf="editMode">
-            <input type="text" class="form-control" [(ngModel)]="hours" placeholder="{{hours}}" />
+            <input type="text" class="form-control" [(ngModel)]="newHours" placeholder="{{employee.hours}}" />
         </div>
     </td>
     <td>
