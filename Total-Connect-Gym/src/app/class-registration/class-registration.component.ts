@@ -16,7 +16,7 @@ export class ClassRegistrationComponent implements OnInit {
   schedule: GymClass[]; 
   classesOnDay: GymClass[];
   sd: Day;
-
+  headers = [ "Name: ", "Description: ", "Start Time: ", "End Time:", "ID: "]
 
   updateTable(day: string) {
     
