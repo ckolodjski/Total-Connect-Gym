@@ -16,6 +16,8 @@ export class AddMemberComponent implements OnInit {
   gmAdd: GymMember;
   gmLev: MembershipLevel = {Name: "Default", Price: 99.99, UniqueID: "10dec15f-8056-4bc1-ac1e-4e7e33e43a3b"};
   async addMember(name: string, db: string, lev: string) {
+    //add stuff to get correct membershioplevel based off of id
+
     this.gmAdd = {Name: name, DateOfBirth: new Date(), MembershipLevel: 
       this.gmLev, CurrentlyCheckedIn: false, UniqueID: uuidv4().toString()};
     var res = await this.dbService.addGymMember(this.gmAdd);
