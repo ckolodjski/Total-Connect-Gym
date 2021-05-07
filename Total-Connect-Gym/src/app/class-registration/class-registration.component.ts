@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { isSome } from 'fp-ts/lib/Option';
+import { Day } from '../data-types/day-of-week';
 import { GymClass } from '../data-types/gym-class';
 import { DatabaseService } from '../database.service';
 
@@ -13,11 +14,23 @@ export class ClassRegistrationComponent implements OnInit {
   constructor(private dbService: DatabaseService) { }
   gcAdd: GymClass;
   schedule: GymClass[]; 
+  classesOnDay: GymClass[];
+  sd: Day;
 
+
+  updateTable(day: string) {
+    
+    this.sd = parseInt(day) as Day;
+    //get classes on the one day 
+    this.schedule.forEach( (element) => {
+      if(element.Day == this.sd) {
+        this.classesOnDay.push(element);
+      }
+    });
+    
+    alert("slected day is " + this.sd);
+  }
   
-
-
-
 
   async getSchedule() {
     var res = await this.dbService.getScheduledClasses();
