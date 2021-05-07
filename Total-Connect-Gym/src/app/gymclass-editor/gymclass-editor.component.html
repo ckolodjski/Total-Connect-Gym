@@ -14,16 +14,10 @@
           </div>
           <p>choose a date and time: </p>
 
-          <mat-form-field>
-            <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date & time" [(ngModel)]="myDatePicker">
-            
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        
-            <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
-        </mat-form-field>
+         
       </div>
       <div class="col-4">
-        <app-list-classes></app-list-classes>
+        <app-list-classes ></app-list-classes>   
       </div>
     </div>
   </div>
