@@ -10,10 +10,50 @@
       <div class="col-8">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Course ID:</span>
-            <input type="text" class="form-control" placeholder="ID" aria-label="ID" aria-describedby="basic-addon1">
+            <input type="text" (change)="courseIDChange($event)" class="form-control" placeholder="ID" aria-label="ID" aria-describedby="basic-addon1">
           </div>
-          <p>choose a date and time: </p>
 
+          <div class="form-group">
+            <div class="form-check">
+              <input class="form-check-input" (click)="changeDay(1)" type="radio" name="dayRadio" id="flexRadioDefault1" checked>
+              <label class="form-check-label" for="flexRadioDefault1">
+                Monday
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" (click)="changeDay(2)" type="radio" name="dayRadio" id="flexRadioDefault2">
+              <label class="form-check-label" for="flexRadioDefault2">
+                Tuesday
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" (click)="changeDay(3)" type="radio" name="dayRadio" id="flexRadioDefault3">
+              <label class="form-check-label" for="flexRadioDefault3">
+                Wedensday
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" (click)="changeDay(4)" type="radio" name="dayRadio" id="flexRadioDefault4">
+              <label class="form-check-label" for="flexRadioDefault4">
+                Thursday
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" (click)="changeDay(5)" type="radio" name="dayRadio" id="flexRadioDefault5">
+              <label class="form-check-label" for="flexRadioDefault5">
+                Friday
+              </label>
+            </div>
+          </div>
+          <div>
+            <label for="usr">Class start time:</label>
+            <input type="time" class="form-control" id="usr" placeholder="HH:mm" (change)="startTimeChange($event)">
+          </div>
+          <div>
+            <label for="usr">Class end time:</label>
+            <input type="time" class="form-control" id="usr" placeholder="HH:mm" (change)="endTimeChange($event)">
+          </div>
+          <button class="btn btn-primary" (click)="attemptCreationOfClass()">Create New Class</button>
       </div>
       <div class="col-4">
         <app-list-classes></app-list-classes>

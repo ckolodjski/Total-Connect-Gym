@@ -8,6 +8,7 @@ import { GymMember } from './data-types/member';
 import { GymEmployee } from './data-types/employee';
 import { v4 as uuid } from 'uuid';
 import { member } from 'fp-ts/lib/Map';
+import { Day } from './data-types/day-of-week';
 
 @Injectable({
   providedIn: 'root'
@@ -128,6 +129,30 @@ export class DatabaseService {
    //Returns true if the operation was successful.
    async scheduleClass(gymClass: GymClass): Promise<boolean> {
      return await this.addData(gymClass, this._classScheduleDocument, gymClass.ClassInstanceId, "Error scheduling a course");
+   }
+
+   //Gets a course by its unique ID.
+   //Returns Some(Course) if the course was found, or None if an error occurred or it was not found.
+   async getCourse(uniqueCourseID: string): Promise<Option<Course>> {
+     let allCourses = await this.getAllCourses();
+     if (isNone(allCourses))
+      return none;
+    
+      let targetCourse = allCourses.value.find((course) => course.CourseID == uniqueCourseID);
+      if (targetCourse)
+        return some(targetCourse);
+      return none;
+   }
+
+   //Schedules a class based upon the course ID and the start and end date.
+   //Returns true if the operation was successful.
+   async scheduleClassByID(uniqueCourseID: string, day: Day, startTime: Date, endTime: Date): Promise<boolean> {
+    let course = await this.getCourse(uniqueCourseID);
+    if (isNone(course))
+      return false;
+    
+    let gymClass: GymClass = { ClassInformation: course.value, ClassInstanceId: uuid(), Day: day, StartTime: startTime, EndTime: endTime };
+    return await this.scheduleClass(gymClass);
    }
 
    //Unschedules a class.
