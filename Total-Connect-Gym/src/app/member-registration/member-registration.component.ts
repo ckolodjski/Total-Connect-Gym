@@ -16,6 +16,7 @@ export class MemberRegistrationComponent implements OnInit {
 
   addMember: boolean = true;
   removeMember: boolean = false;
+  editMember: boolean = false;
   //fetch membership list and for populating the table
   async fetchMembershipTypes() {
     var res = await this.dbService.getMembershipLevels()
@@ -28,14 +29,18 @@ export class MemberRegistrationComponent implements OnInit {
 
   addButtonClick() {
     if(this.removeMember) { this.removeMember = false;}
+    if(this.editMember) { this.editMember = false;}
     this.addMember = !this.addMember;
   }
   removeButtonClick(){
     if(this.addMember) {this.addMember = false;}
+    if(this.editMember) { this.editMember = false;}
     this.removeMember = !this.removeMember;
   }
   editButtonClick(){
-
+    if(this.addMember) {this.addMember = false;}
+    if(this.removeMember) { this.removeMember = false;}
+    this.editMember = !this.editMember 
   }
   ngOnInit(): void {
     this.fetchMembershipTypes();
