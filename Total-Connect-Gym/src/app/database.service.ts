@@ -148,6 +148,19 @@ export class DatabaseService {
      return await this.getData(this._membershipLevelsDocument, "Error getting membership levels");
    }
 
+   //Gets a specific membership level by ID.
+   //Returns Some<MembershipLevel> if the membership was found, or None if there are no memberships.
+   async getMembershipLevel(membershipLevelID: string): Promise<Option<MembershipLevel>> {
+    let membershipLevels = await this.getMembershipLevels();
+    if (isNone(membershipLevels))
+      return none;
+
+    let searchResult = membershipLevels.value.find((membershipLevel) => membershipLevel.UniqueID == membershipLevelID);
+    if (searchResult)
+      return some(searchResult);
+    return none;
+   }
+
    //Removes a membership level.
    //Returns true if the operation was a success.
    async removeMembershipLevel(membershipLevelID: string): Promise<boolean> {
