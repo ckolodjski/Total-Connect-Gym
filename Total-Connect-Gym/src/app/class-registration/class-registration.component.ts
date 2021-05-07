@@ -32,7 +32,10 @@ export class ClassRegistrationComponent implements OnInit {
   }
   
   signUp(mID: string, gcID: string) {
-    
+    //this is where logic would go if we had it to sign up a member
+    // you would add mem id to rost of gymclasses
+    //for now we will alert that they were added 
+    alert("Member would be added!");
   }
   async getSchedule() {
     var res = await this.dbService.getScheduledClasses();
