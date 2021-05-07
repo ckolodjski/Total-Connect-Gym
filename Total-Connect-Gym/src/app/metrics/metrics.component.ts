@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./metrics.component.css']
 })
 export class MetricsComponent implements OnInit {
-  
+  capacity = "100";
+  revenue = "$10";
   constructor() { }
 
   ngOnInit(): void {
