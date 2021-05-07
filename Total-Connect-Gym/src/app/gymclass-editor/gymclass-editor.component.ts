@@ -10,7 +10,6 @@ import { DatabaseService } from '../database.service';
 })
 export class GymclassEditorComponent implements OnInit {
 
-
   showListClasses: boolean = true;
 
   courses: Course[];
@@ -21,6 +20,8 @@ export class GymclassEditorComponent implements OnInit {
     var res = await this.dbService.getAllCourses();
     if (isSome(res)) {
       this.courses = res.value;
+    } else {
+      
     }
   }
   ngOnInit(): void {
