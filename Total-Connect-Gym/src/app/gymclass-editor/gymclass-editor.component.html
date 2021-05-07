@@ -17,7 +17,12 @@
       </div>
       <div class="col-4">
         <!-- <app-list-classes></app-list-classes> -->
-        
+        <h3>List of All Classes</h3>
+        <ul class="list-group" *ngFor="let course of courses">
+            <li class="list-group-item"><strong>ID:</strong> {{ course.CourseID }}<br>
+              <strong>Name:</strong> {{ course.Name }}<br>
+              <strong>Description:</strong> {{ course.Description }} </li>  
+        </ul>
       </div>
     </div>
   </div>
