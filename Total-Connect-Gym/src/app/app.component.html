@@ -1,22 +1,31 @@
-<div>
-    <h1>Routing</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <nav class="sidenav">
+                <!-- <a class="navbar-brand" href="./class-editor/">Total Connect: Gym</a> -->
+                <a routerLink="/class-editor">Class Editor</a>
+                <br>
+                <a routerLink="/class-registration">Class Registration</a>
+                <br>
+                <a routerLink="/gymclass-editor">Class Scheduling</a>
+                <br>
+                <a routerLink="/member-check-in">Member Check In</a>
+                <br>
+                <a routerLink="/member-registration">Member Registration</a>
+                <br>
+                <a routerLink="/membership-editor">Membership Editor</a>
+                <br>
+                <a routerLink="/metrics">Metrics</a>
+                <br>
+                <a routerLink="/time-clock">Time Clock</a>
+                <br>
+                <a routerLink="/time-clock-audit">Time Clock Audit</a>
+            </nav>
+        </div>
+        <div class="col-9">
+            <h1>Total Connect: Gym</h1>
+            <hr>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </div>
-<nav class = "sidenav">
-    <a routerLink="/class-editor">Class Editor</a>
-    <br>
-    <a routerLink="/class-registration">Class Registration</a>
-    <br>
-    <a routerLink="/member-check-in">Member Check In</a>
-    <br>
-    <a routerLink="/member-registration">Member Registration</a>
-    <br>
-    <a routerLink="/membership-editor">Membership Editor</a>
-    <br>
-    <a routerLink="/metrics">Metrics</a>
-    <br>
-    <a routerLink="/time-clock">Time Clock</a>
-    <br>
-    <a routerLink="/time-clock-audit">Time Clock Audit</a>
-</nav>
-
-<router-outlet></router-outlet>

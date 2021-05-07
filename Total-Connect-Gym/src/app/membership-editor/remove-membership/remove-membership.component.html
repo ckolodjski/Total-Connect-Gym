@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header">
+        Enter Membership to Remove
+    </div>
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">ID: </span>
+            <input type="text" class="form-control" placeholder="Membership ID" aria-label="MemNameRem"
+                aria-describedby="basic-addon1" #memToRemove>
+        </div>
+        <a class="btn btn-danger" type="submit" (click)="removeMembership(memToRemove.value)">Remove Membership</a>
+    </div>
+</div>

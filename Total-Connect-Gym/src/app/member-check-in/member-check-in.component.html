@@ -1,1 +1,23 @@
-<p>member-check-in works!</p>
+<div class="container">
+    <div class="row align-items-start">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Member Check-In</h3>
+                </div>
+                <div class="card-body">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Member ID" aria-label="MemberID"
+                            #memberID>
+                    </form>
+                    <br />
+                    <button class="btn btn-outline-primary" 
+                            (click)="checkIn(memberID.value)">Check In</button>
+                    <br />
+                    <br />
+                    <p>{{checkInMessage}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

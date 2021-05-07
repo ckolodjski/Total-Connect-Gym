@@ -1,1 +1,54 @@
-<p>member-registration works!</p>
+<p>Here is where you will add a new member and their information</p>
+
+
+<div class="container">
+  <div class="row align-items-start">
+    <div class="col-5">
+      Display will change based on add or remove
+      <app-add-member *ngIf="addMember"></app-add-member>
+    </div>
+    <div class="col-2">
+
+    </div>
+
+    <div class="col-5">
+      <div class="card">
+        <div class="card-header">
+          Choose an action
+        </div>
+        <div class="card-body">
+          <a class="btn btn-primary" (click)="addButtonClick()">Add Member</a>
+          <p></p>
+          <a class="btn btn-primary" (click)="removeButtonClick()">Remove Member</a>
+          <p></p>
+          <a class="btn btn-primary" (click)="editButtonClick()">Edit a member</a>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="card">
+          <div class="card-header">
+            Current List of Membership Types
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th *ngFor="let column of headers">{{ column }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ml of membershipTypes">
+                  <td>{{ ml.Name }}</td>
+                  <td>{{ ml.Price }}</td>
+                  <td>{{ ml.UniqueID }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,45 @@
-<p>class-editor works!</p>
+<div class="container">
+    <div class="row align-items-start">
+        <div class="col">
+            <app-add-class  *ngIf="showAddCard" (added)="addButtonClick()"></app-add-class>
+            <app-remove-class *ngIf="showRemoveCard" (remove)="removeButtonClick()"></app-remove-class>
+            <app-list-classes *ngIf="showListClasses"></app-list-classes>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Search for a class (this maybe could be data list) (maybe we make an app level class search?)
+                </div>
+                <div class="card-body">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                            #searchVal>
+                        <button class="btn btn-outline-primary" 
+                            (click)="searchClass(searchVal.value)">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Choose an action
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-primary" (click)="addButtonClick()">Add a Class</a>
+                    <p></p>
+                    <a class="btn btn-primary" (click)="removeButtonClick()">Remove a Class</a>
+                    <p></p>
+                    <a class="btn btn-primary" (click)="listAllButtonClick()">List all Classes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    Search Results: (this is not working)
+    <li *ngFor="let c of searchResult;">
+        <ul>{{c.Name}}</ul>
+    </li>
+</div>

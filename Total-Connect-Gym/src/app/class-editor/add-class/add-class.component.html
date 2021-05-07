@@ -1,0 +1,19 @@
+<div class="card">
+    <div class="card-header">
+        Add Class Information Below
+    </div>
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Name: </span>
+            <input type="text" class="form-control" placeholder="Class Name" aria-label="ClassNameAdd"
+                aria-describedby="basic-addon1" #classToAdd_Name>
+        </div>
+        <div class="input-group">
+            <span class="input-group-text">Description</span>
+            <textarea class="form-control" aria-label="With textarea" #classToAdd_Description></textarea>
+        </div>
+        <a class="btn btn-primary" type="submit"
+            (click)="addClass(classToAdd_Name.value, classToAdd_Description.value)">
+            Add Class to System</a>
+    </div>
+</div>
