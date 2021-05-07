@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { isSome } from 'fp-ts/lib/Option';
 import { DatabaseService } from '../database.service';
 
 @Component({
@@ -23,7 +24,10 @@ export class MetricsComponent implements OnInit {
     this.capacity = await this._dbService.getNumberMembersCheckedIn();
     this.capacity = this.capacity / 200;
 
-    this.revenue = await this._dbService.getTotalRevenue();
+    let revObject = await this._dbService.getTotalRevenue();
+    if (isSome(revObject))
+      this.revenue = revObject.value;
+    else
+      this.revenue = 0;
   }
-
 }
