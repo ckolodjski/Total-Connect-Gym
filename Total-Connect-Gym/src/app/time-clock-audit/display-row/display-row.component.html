@@ -7,7 +7,7 @@
             {{employee.HoursWorked}}
         </div>
         <div *ngIf="editMode">
-            <input type="text" class="form-control" [value]="employee.HoursWorked" (input)="newHours=$event.target.value" placeholder="{{employee.HoursWorked}}" />
+            <input type="text" class="form-control" [value]="hours" (input)="newHours=$event.target.value" placeholder="{{hours}}" />
         </div>
     </td>
     <td>
