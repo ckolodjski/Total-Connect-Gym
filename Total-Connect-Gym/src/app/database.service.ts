@@ -160,16 +160,30 @@ export class DatabaseService {
      return await this.addData(member, this._gymMembersDocument, member.UniqueID, "Error adding a new gym member");
    }
 
+   //Returns true if the gym member exists, or false if an error occurred or the gym member does not exist.
+   private async doesGymMemberExist(memberID: string) : Promise<boolean> {
+    let members = await this.getGymMember(memberID);
+    return isSome(members);
+   }
+
    //Removes a gym member.
    //Returns true if the operation was a success.
    async removeGymMember(memberID: string): Promise<boolean> {
-    return await this.deleteData(this._gymMembersDocument, memberID, "Error removing a gym member");
+    let memberExists = await this.doesGymMemberExist(memberID);
+    if (memberExists)
+      return await this.deleteData(this._gymMembersDocument, memberID, "Error removing a gym member");
+    console.log(`Member does not exist: ${memberID}`);
+    return false;
    }
 
    //Updates a gym member.
    //Returns true if the operation was a success.
    async updateGymMember(memberID: string, replacementData: GymMember): Promise<boolean> {
+    let memberExists = await this.doesGymMemberExist(memberID);
+    if (memberExists)
      return await this.updateDocument(this._gymMembersDocument, memberID, replacementData, "Error updating gym member information");
+    console.log(`Member does not exist: ${memberID}`);
+    return false;
    }
 
    //Gets all gym members.
