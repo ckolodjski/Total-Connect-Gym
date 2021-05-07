@@ -23,7 +23,11 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AddMemberComponent } from './member-registration/add-member/add-member.component';
+
 import { RemoveMemberComponent } from './member-registration/remove-member/remove-member.component';
+
+import { DisplayRowComponent } from './time-clock-audit/display-row/display-row.component';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import { RemoveMemberComponent } from './member-registration/remove-member/remov
     RemoveMembershipComponent,
     ListClassesComponent,
     AddMemberComponent,
-    RemoveMemberComponent
+
+    RemoveMemberComponent,
+
+    DisplayRowComponent
+
   ],
   imports: [
     BrowserModule,

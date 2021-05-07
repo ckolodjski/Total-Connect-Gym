@@ -37,20 +37,6 @@ export class ClassEditorComponent implements OnInit {
     if (this.showRemoveCard){ this.showRemoveCard = false; }
     this.showListClasses = !this.showListClasses;
   }
-  //fetch class list, search
-  // string should be fine for searching
-  // still doesn't work egt 836 5/5/21
-  async searchClass(c: string) {
-    var res = await this._dbService.searchCourseNames(c);
-    if( isSome(res) ) { //can do isNone(res)
-      alert("serach res working???");
-      this.searchResult = res.value;
-      console.log(res);
-    } else {
-      alert("serach res boof");
-      console.log("fooey");
-    }
-  }
   
   ngOnInit(): void {
   }
