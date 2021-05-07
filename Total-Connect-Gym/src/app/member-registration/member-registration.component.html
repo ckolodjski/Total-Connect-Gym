@@ -6,7 +6,27 @@
       <div class="col">
         <div class="card">
             <div class="card-body">
-                should have a search function here or something
+              <div class="card">
+                <div class="card-header">
+                    Current List of Membership Types
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead >
+                          <tr>
+                            <th *ngFor = "let column of headers">{{ column }}</th>
+                          </tr>  
+                        </thead>
+                        <tbody>
+                            <tr *ngFor = "let ml of membershipTypes">
+                                <td>{{ ml.Name }}</td>
+                                <td>{{ ml.Price }}</td>
+                                <td>{{ ml.UniqueID }}</td>
+                            </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
             </div>
         </div>
       </div>
