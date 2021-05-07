@@ -17,6 +17,15 @@
                     <br />
                     <p>{{checkInMessage}}</p>
                 </div>
+                <div class="card-header">
+                    <h3>Member List</h3>
+                    <p>Name | UniqueID | MemberShip Level | Checked In?</p>
+                </div>
+                <div class="card-body">
+                    <li *ngFor="let member of memberlist">
+                        {{member.Name}} | {{member.UniqueID}} | {{member.MembershipLevel.Name}} | {{member.CurrentlyCheckedIn}}
+                    </li>
+                </div>
             </div>
         </div>
     </div>
