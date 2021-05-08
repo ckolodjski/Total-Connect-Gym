@@ -21,14 +21,16 @@ export class ClassRegistrationComponent implements OnInit {
   updateTable(day: string) {
     
     this.sd = parseInt(day) as Day;
+    alert("slected day is " + this.sd);
     //get classes on the one day 
     this.schedule.forEach( (element) => {
       if(element.Day == this.sd) {
         this.classesOnDay.push(element);
+        alert("int lambda");
       }
     });
     
-    alert("slected day is " + this.sd);
+    
   }
   
   signUp(mID: string, gcID: string) {
@@ -41,11 +43,15 @@ export class ClassRegistrationComponent implements OnInit {
     var res = await this.dbService.getScheduledClasses();
 
     if(isSome(res)) {
-      for( var gc  in res) {
+
+      res.value.forEach( (gc) => {
+        this.gcAdd = {ClassInformation: gc.ClassInformation, Day: gc.Day, StartTime: gc.StartTime, EndTime: gc.EndTime, ClassInstanceId: gc.ClassInstanceId};
+      });
+      //for( var gc  in res) {
         //this.gcAdd = {ClassInformation: gc.}
         //this.schedule.push(gc);
-        console.log(gc.toString());
-      }
+        //console.log(gc.toString());
+      //}
     } else {
       console.log("res got goofed or is empty");
     }
