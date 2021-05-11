@@ -19,10 +19,11 @@ export class ClassRegistrationComponent implements OnInit {
   headers = [ "Name: ", "Description: ", "Start Time: ", "End Time:", "ID: "]
 
   updateTable(day: string) {
-    
+    //this.getSchedule();
     this.sd = parseInt(day) as Day;
     alert("slected day is " + this.sd);
     //get classes on the one day 
+    alert("size of schedule is " + this.schedule.length);
     this.schedule.forEach( (element) => {
       if(element.Day == this.sd) {
         this.classesOnDay.push(element);
@@ -41,17 +42,15 @@ export class ClassRegistrationComponent implements OnInit {
   }
   async getSchedule() {
     var res = await this.dbService.getScheduledClasses();
-
+    //alert("get schedule called");
     if(isSome(res)) {
-
+      alert("res is some true");
       res.value.forEach( (gc) => {
+        //alert("this is gc to string: " + gc.ClassInformation);
         this.gcAdd = {ClassInformation: gc.ClassInformation, Day: gc.Day, StartTime: gc.StartTime, EndTime: gc.EndTime, ClassInstanceId: gc.ClassInstanceId};
+        this.schedule.push(this.gcAdd);
       });
-      //for( var gc  in res) {
-        //this.gcAdd = {ClassInformation: gc.}
-        //this.schedule.push(gc);
-        //console.log(gc.toString());
-      //}
+      
     } else {
       console.log("res got goofed or is empty");
     }
