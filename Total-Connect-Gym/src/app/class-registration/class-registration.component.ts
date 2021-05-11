@@ -20,14 +20,15 @@ export class ClassRegistrationComponent implements OnInit {
 
   updateTable(day: string) {
     //this.getSchedule();
+    this.classesOnDay = [];
     this.sd = parseInt(day) as Day;
-    alert("slected day is " + this.sd);
+    //alert("slected day is " + this.sd);
     //get classes on the one day 
-    alert("size of schedule is " + this.schedule.length);
+    //alert("size of schedule is " + this.schedule.length);
     this.schedule.forEach( (element) => {
       if(element.Day == this.sd) {
         this.classesOnDay.push(element);
-        alert("int lambda");
+        //alert("int lambda");
       }
     });
     
@@ -44,7 +45,7 @@ export class ClassRegistrationComponent implements OnInit {
     var res = await this.dbService.getScheduledClasses();
     //alert("get schedule called");
     if(isSome(res)) {
-      alert("res is some true");
+      //alert("res is some true");
       res.value.forEach( (gc) => {
         //alert("this is gc to string: " + gc.ClassInformation);
         this.gcAdd = {ClassInformation: gc.ClassInformation, Day: gc.Day, StartTime: gc.StartTime, EndTime: gc.EndTime, ClassInstanceId: gc.ClassInstanceId};
