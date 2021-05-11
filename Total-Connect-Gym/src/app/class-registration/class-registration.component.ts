@@ -13,8 +13,8 @@ export class ClassRegistrationComponent implements OnInit {
 
   constructor(private dbService: DatabaseService) { }
   gcAdd: GymClass;
-  schedule: GymClass[]; 
-  classesOnDay: GymClass[];
+  schedule: GymClass[] = []; 
+  classesOnDay: GymClass[] = [];
   sd: Day;
   headers = [ "Name: ", "Description: ", "Start Time: ", "End Time:", "ID: "]
 
